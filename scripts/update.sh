@@ -7,4 +7,6 @@ openapi-generator generate \
     --additional-properties=packageName=databricks_jobs \
     --global-property=modelTests=false \
     --global-property=apiTests=false
+
+isort databricks_jobs
 black databricks_jobs

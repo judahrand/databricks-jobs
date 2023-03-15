@@ -11,13 +11,13 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
+
+import json
 import pprint
 import re  # noqa: F401
-import json
-
-
+from inspect import getfullargspec
 from typing import List, Optional
+
 from pydantic import (
     BaseModel,
     Field,
@@ -27,6 +27,7 @@ from pydantic import (
     constr,
     validator,
 )
+
 from databricks_jobs.models.dbt_task import DbtTask
 from databricks_jobs.models.job_email_notifications import JobEmailNotifications
 from databricks_jobs.models.library import Library

@@ -13,14 +13,21 @@
 from __future__ import absolute_import
 
 import re  # noqa: F401
-
-from pydantic import validate_arguments, ValidationError
-from typing_extensions import Annotated
-
-from pydantic import Field, StrictBool, StrictInt, StrictStr, conint
-
 from typing import Any, Dict, Optional
 
+from pydantic import (
+    Field,
+    StrictBool,
+    StrictInt,
+    StrictStr,
+    ValidationError,
+    conint,
+    validate_arguments,
+)
+from typing_extensions import Annotated
+
+from databricks_jobs.api_client import ApiClient
+from databricks_jobs.exceptions import ApiTypeError, ApiValueError  # noqa: F401
 from databricks_jobs.models.jobs_create200_response import JobsCreate200Response
 from databricks_jobs.models.jobs_create_request import JobsCreateRequest
 from databricks_jobs.models.jobs_delete_request import JobsDeleteRequest
@@ -50,9 +57,6 @@ from databricks_jobs.models.jobs_runs_submit200_response import (
 from databricks_jobs.models.jobs_runs_submit_request import JobsRunsSubmitRequest
 from databricks_jobs.models.jobs_update_request import JobsUpdateRequest
 from databricks_jobs.models.views_to_export import ViewsToExport
-
-from databricks_jobs.api_client import ApiClient
-from databricks_jobs.exceptions import ApiTypeError, ApiValueError  # noqa: F401
 
 
 class DefaultApi(object):

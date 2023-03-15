@@ -11,18 +11,18 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
+
 import json
 import pprint
 import re  # noqa: F401
-
+from inspect import getfullargspec
 from typing import Any, List, Optional
+
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
+
 from databricks_jobs.models.can_manage import CanManage
 from databricks_jobs.models.can_manage_run import CanManageRun
 from databricks_jobs.models.can_view import CanView
-from typing import Any, List
-from pydantic import StrictStr, Field
 
 PERMISSIONLEVELFORGROUP_ONE_OF_SCHEMAS = ["CanManage", "CanManageRun", "CanView"]
 

@@ -17,19 +17,18 @@ import json
 import logging
 import re
 import ssl
+from urllib.parse import quote_plus, urlencode
 
-from urllib.parse import urlencode, quote_plus
 import urllib3
 
 from databricks_jobs.exceptions import (
     ApiException,
-    UnauthorizedException,
+    ApiValueError,
     ForbiddenException,
     NotFoundException,
     ServiceException,
-    ApiValueError,
+    UnauthorizedException,
 )
-
 
 logger = logging.getLogger(__name__)
 

@@ -10,9 +10,10 @@
 """
 
 
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
+from inspect import getfullargspec
+
 from aenum import Enum, no_arg
 
 

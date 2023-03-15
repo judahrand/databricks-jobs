@@ -12,20 +12,20 @@ from __future__ import absolute_import
 
 import atexit
 import datetime
-from dateutil.parser import parse
 import json
 import mimetypes
-from multiprocessing.pool import ThreadPool
 import os
 import re
 import tempfile
-
+from multiprocessing.pool import ThreadPool
 from urllib.parse import quote
 
-from databricks_jobs.configuration import Configuration
+from dateutil.parser import parse
+
 import databricks_jobs.models
 from databricks_jobs import rest
-from databricks_jobs.exceptions import ApiValueError, ApiException
+from databricks_jobs.configuration import Configuration
+from databricks_jobs.exceptions import ApiException, ApiValueError
 
 
 class ApiClient(object):

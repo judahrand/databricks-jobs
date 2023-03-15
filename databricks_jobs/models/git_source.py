@@ -11,19 +11,19 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
+
 import json
 import pprint
 import re  # noqa: F401
-
+from inspect import getfullargspec
 from typing import Any, List, Optional
+
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
+
 from databricks_jobs.models.git_branch_source import GitBranchSource
 from databricks_jobs.models.git_commit_source import GitCommitSource
 from databricks_jobs.models.git_snapshot_source import GitSnapshotSource
 from databricks_jobs.models.git_tag_source import GitTagSource
-from typing import Any, List
-from pydantic import StrictStr, Field
 
 GITSOURCE_ONE_OF_SCHEMAS = [
     "GitBranchSource",

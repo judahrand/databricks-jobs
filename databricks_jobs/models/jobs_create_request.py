@@ -11,14 +11,15 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
+
+import json
 import pprint
 import re  # noqa: F401
-import json
-
-
+from inspect import getfullargspec
 from typing import Any, Dict, List, Optional
+
 from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, validator
+
 from databricks_jobs.models.access_control_request import AccessControlRequest
 from databricks_jobs.models.cron_schedule import CronSchedule
 from databricks_jobs.models.git_source import GitSource

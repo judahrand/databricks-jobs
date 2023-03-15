@@ -11,14 +11,15 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
+
+import json
 import pprint
 import re  # noqa: F401
-import json
-
-
+from inspect import getfullargspec
 from typing import Optional
+
 from pydantic import BaseModel, Field, StrictBool, StrictStr
+
 from databricks_jobs.models.dbt_output import DbtOutput
 from databricks_jobs.models.notebook_output import NotebookOutput
 from databricks_jobs.models.run import Run

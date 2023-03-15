@@ -13,14 +13,14 @@
 from __future__ import absolute_import
 
 import copy
+import http.client as httplib
 import logging
 import multiprocessing
 import sys
+
 import urllib3
 
-import http.client as httplib
 from databricks_jobs.exceptions import ApiValueError
-
 
 JSON_SCHEMA_VALIDATION_KEYWORDS = {
     "multipleOf",

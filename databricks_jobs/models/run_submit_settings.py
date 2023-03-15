@@ -11,14 +11,15 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
+
+import json
 import pprint
 import re  # noqa: F401
-import json
-
-
+from inspect import getfullargspec
 from typing import Optional
+
 from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist
+
 from databricks_jobs.models.git_source import GitSource
 from databricks_jobs.models.run_submit_task_settings import RunSubmitTaskSettings
 from databricks_jobs.models.webhook_notifications import WebhookNotifications
