@@ -16,7 +16,6 @@ import json
 import pprint
 import re  # noqa: F401
 from inspect import getfullargspec
-from typing import Optional
 
 from pydantic import BaseModel, Field, StrictStr
 
@@ -35,8 +34,8 @@ class GitTagSource(BaseModel):
         description="URL of the repository to be cloned by this job. The maximum length is 300 characters.",
     )
     git_provider: GitProvider = ...
-    git_tag: Optional[StrictStr] = Field(
-        None,
+    git_tag: StrictStr = Field(
+        ...,
         description="Name of the tag to be checked out and used by this job. This field cannot be specified in conjunction with git_branch or git_commit. The maximum length is 255 characters.",
     )
     __properties = ["git_url", "git_provider", "git_tag"]

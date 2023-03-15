@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **git_url** | **str** | URL of the repository to be cloned by this job. The maximum length is 300 characters. | 
 **git_provider** | [**GitProvider**](GitProvider.md) |  | 
-**git_tag** | **str** | Name of the tag to be checked out and used by this job. This field cannot be specified in conjunction with git_branch or git_commit. The maximum length is 255 characters. | [optional] 
+**git_tag** | **str** | Name of the tag to be checked out and used by this job. This field cannot be specified in conjunction with git_branch or git_commit. The maximum length is 255 characters. | 
 
 ## Example
 

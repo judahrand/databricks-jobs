@@ -1055,7 +1055,7 @@ components:
       required:
         - git_url
         - git_provider
-        - git_branch
+        - git_tag
       properties:
         git_url:
           $ref: '#/components/schemas/GitURL'
