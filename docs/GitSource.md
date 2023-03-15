@@ -6,11 +6,11 @@ This functionality is in Public Preview.  An optional specification for a remote
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **git_url** | **str** | URL of the repository to be cloned by this job. The maximum length is 300 characters. | 
-**git_provider** | **str** | Unique identifier of the service used to host the Git repository. The value is case insensitive. | 
-**git_branch** | **str** | Name of the branch to be checked out and used by this job. This field cannot be specified in conjunction with git_tag or git_commit. The maximum length is 255 characters. | [optional] 
+**git_provider** | [**GitProvider**](GitProvider.md) |  | 
+**git_branch** | **str** | Name of the branch to be checked out and used by this job. This field cannot be specified in conjunction with git_tag or git_commit. The maximum length is 255 characters. | 
 **git_tag** | **str** | Name of the tag to be checked out and used by this job. This field cannot be specified in conjunction with git_branch or git_commit. The maximum length is 255 characters. | [optional] 
-**git_commit** | **str** | Commit to be checked out and used by this job. This field cannot be specified in conjunction with git_branch or git_tag. The maximum length is 64 characters. | [optional] 
-**git_snapshot** | [**GitSnapshot**](GitSnapshot.md) |  | [optional] 
+**git_commit** | **str** | Commit to be checked out and used by this job. This field cannot be specified in conjunction with git_branch or git_tag. The maximum length is 64 characters. | 
+**git_snapshot** | [**GitSnapshotSource**](GitSnapshotSource.md) |  | 
 
 ## Example
 

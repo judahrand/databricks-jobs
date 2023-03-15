@@ -57,8 +57,13 @@ from databricks_jobs.models.docker_image import DockerImage
 from databricks_jobs.models.error import Error
 from databricks_jobs.models.event_details import EventDetails
 from databricks_jobs.models.file_storage_info import FileStorageInfo
+from databricks_jobs.models.git_branch_source import GitBranchSource
+from databricks_jobs.models.git_commit_source import GitCommitSource
+from databricks_jobs.models.git_provider import GitProvider
 from databricks_jobs.models.git_snapshot import GitSnapshot
+from databricks_jobs.models.git_snapshot_source import GitSnapshotSource
 from databricks_jobs.models.git_source import GitSource
+from databricks_jobs.models.git_tag_source import GitTagSource
 from databricks_jobs.models.init_script_info import InitScriptInfo
 from databricks_jobs.models.is_owner import IsOwner
 from databricks_jobs.models.job import Job

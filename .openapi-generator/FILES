@@ -40,8 +40,13 @@ databricks_jobs/models/docker_image.py
 databricks_jobs/models/error.py
 databricks_jobs/models/event_details.py
 databricks_jobs/models/file_storage_info.py
+databricks_jobs/models/git_branch_source.py
+databricks_jobs/models/git_commit_source.py
+databricks_jobs/models/git_provider.py
 databricks_jobs/models/git_snapshot.py
+databricks_jobs/models/git_snapshot_source.py
 databricks_jobs/models/git_source.py
+databricks_jobs/models/git_tag_source.py
 databricks_jobs/models/init_script_info.py
 databricks_jobs/models/is_owner.py
 databricks_jobs/models/job.py
@@ -166,8 +171,13 @@ docs/DockerImage.md
 docs/Error.md
 docs/EventDetails.md
 docs/FileStorageInfo.md
+docs/GitBranchSource.md
+docs/GitCommitSource.md
+docs/GitProvider.md
 docs/GitSnapshot.md
+docs/GitSnapshotSource.md
 docs/GitSource.md
+docs/GitTagSource.md
 docs/InitScriptInfo.md
 docs/IsOwner.md
 docs/Job.md
