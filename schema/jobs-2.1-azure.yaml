@@ -991,18 +991,16 @@ components:
         - gitLab
         - gitLabEnterpriseEdition
         - awsCodeCommit
-      required:
-        - true
     GitURL:
       type: string
       example: https://github.com/databricks/databricks-cli
-      required:
-        - true
       description: |-
         URL of the repository to be cloned by this job.
         The maximum length is 300 characters.
     GitSnapshot:
       readOnly: true
+      required:
+        - used_commit
       description: >-
         Read-only state of the remote repository at the time the job was run.
         This field is only included on job runs.
@@ -1026,6 +1024,10 @@ components:
         git_url: https://github.com/databricks/databricks-cli
         git_branch: main
         git_provider: gitHub
+      required:
+        - git_url
+        - git_provider
+        - git_branch
       properties:
         git_url:
           $ref: '#/components/schemas/GitURL'
@@ -1050,6 +1052,10 @@ components:
         git_url: https://github.com/databricks/databricks-cli
         git_tag: release-1.0.0
         git_provider: gitHub
+      required:
+        - git_url
+        - git_provider
+        - git_branch
       properties:
         git_url:
           $ref: '#/components/schemas/GitURL'
@@ -1074,6 +1080,10 @@ components:
         git_url: https://github.com/databricks/databricks-cli
         git_commit: e0056d01
         git_provider: gitHub
+      required:
+        - git_url
+        - git_provider
+        - git_commit
       properties:
         git_url:
           $ref: '#/components/schemas/GitURL'
@@ -1099,6 +1109,10 @@ components:
         git_snapshot:
           used_commit: 4506fdf41e9fa98090570a34df7a5bce163ff15f
         git_provider: gitHub
+      required:
+        - git_url
+        - git_provider
+        - git_snapshot
       properties:
         git_url:
           $ref: '#/components/schemas/GitURL'
@@ -1248,7 +1262,7 @@ components:
           example:
             cost-center: engineering
             team: jobs
-          default: '{}'
+          default: {}
           description: >-
             A map of tags associated with the job. These are forwarded to the
             cluster as cluster tags for jobs clusters, and are subject to the
@@ -1816,8 +1830,6 @@ components:
         notebook_path:
           type: string
           example: /Users/user.name@databricks.com/notebook_to_run
-          required:
-            - true
           description: >-
             The path of the notebook to be run in the Azure Databricks workspace
             or remote repository. For notebooks stored in the Databricks
@@ -1830,8 +1842,6 @@ components:
           enum:
             - WORKSPACE
             - GIT
-          required:
-            - false
           description: >-
             Optional location type of the notebook. When set to `WORKSPACE`, the
             notebook will be retrieved from the local Azure Databricks
