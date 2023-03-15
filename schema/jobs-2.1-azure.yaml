@@ -976,31 +976,83 @@ components:
             - UNPAUSED
           example: PAUSED
           description: Indicate whether this schedule is paused or not.
-    GitProvider:
+    GitSource:
       description: >-
-        Unique identifier of the service used to host the Git repository.
-        The value is case insensitive.
-      example: github
-      type: string
-      enum:
-        - gitHub
-        - bitbucketCloud
-        - azureDevOpsServices
-        - gitHubEnterprise
-        - bitbucketServer
-        - gitLab
-        - gitLabEnterpriseEdition
-        - awsCodeCommit
-    GitURL:
-      type: string
-      example: https://github.com/databricks/databricks-cli
-      description: |-
-        URL of the repository to be cloned by this job.
-        The maximum length is 300 characters.
+        This functionality is in Public Preview.
+
+
+        An optional specification for a remote repository containing the
+        notebooks used by this job's notebook tasks.
+      example:
+        git_url: https://github.com/databricks/databricks-cli
+        git_branch: main
+        git_provider: gitHub
+      required:
+        - git_url
+        - git_provider
+      properties:
+        git_url:
+          type: string
+          example: https://github.com/databricks/databricks-cli
+          description: |-
+            URL of the repository to be cloned by this job.
+            The maximum length is 300 characters.
+        git_provider:
+          type: string
+          enum:
+            - gitHub
+            - bitbucketCloud
+            - azureDevOpsServices
+            - gitHubEnterprise
+            - bitbucketServer
+            - gitLab
+            - gitLabEnterpriseEdition
+            - awsCodeCommit
+          example: github
+          description: >-
+            Unique identifier of the service used to host the Git repository.
+            The value is case insensitive.
+        git_branch:
+          type: string
+          example: main
+          description: >-
+            Name of the branch to be checked out and used by this job. This
+            field cannot be specified in conjunction with git_tag or git_commit.
+
+            The maximum length is 255 characters.
+        git_tag:
+          type: string
+          example: release-1.0.0
+          description: >-
+            Name of the tag to be checked out and used by this job. This field
+            cannot be specified in conjunction with git_branch or git_commit.
+
+            The maximum length is 255 characters.
+        git_commit:
+          type: string
+          example: e0056d01
+          description: >-
+            Commit to be checked out and used by this job. This field cannot be
+            specified in conjunction with git_branch or git_tag.
+
+            The maximum length is 64 characters.
+        git_snapshot:
+          $ref: '#/components/schemas/GitSnapshot'
+      oneOf:
+        - required:
+            - git_url
+            - git_provider
+            - git_branch
+        - required:
+            - git_url
+            - git_provider
+            - git_tag
+        - required:
+            - git_url
+            - git_provider
+            - git_commit
     GitSnapshot:
       readOnly: true
-      required:
-        - used_commit
       description: >-
         Read-only state of the remote repository at the time the job was run.
         This field is only included on job runs.
@@ -1013,129 +1065,6 @@ components:
             specified, this points to the HEAD of the branch at the time of the
             run; if git_tag was specified, this points to the commit the tag
             points to.
-    GitBranchSource:
-      description: >-
-        This functionality is in Public Preview.
-
-
-        An optional specification for a remote repository containing the
-        notebooks used by this job's notebook tasks.
-      example:
-        git_url: https://github.com/databricks/databricks-cli
-        git_branch: main
-        git_provider: gitHub
-      required:
-        - git_url
-        - git_provider
-        - git_branch
-      properties:
-        git_url:
-          $ref: '#/components/schemas/GitURL'
-        git_provider:
-          $ref: '#/components/schemas/GitProvider'
-        git_branch:
-          type: string
-          example: main
-          description: >-
-            Name of the branch to be checked out and used by this job. This
-            field cannot be specified in conjunction with git_tag or git_commit.
-
-            The maximum length is 255 characters.
-    GitTagSource:
-      description: >-
-        This functionality is in Public Preview.
-
-
-        An optional specification for a remote repository containing the
-        notebooks used by this job's notebook tasks.
-      example:
-        git_url: https://github.com/databricks/databricks-cli
-        git_tag: release-1.0.0
-        git_provider: gitHub
-      required:
-        - git_url
-        - git_provider
-        - git_branch
-      properties:
-        git_url:
-          $ref: '#/components/schemas/GitURL'
-        git_provider:
-          $ref: '#/components/schemas/GitProvider'
-        git_tag:
-          type: string
-          example: release-1.0.0
-          description: >-
-            Name of the tag to be checked out and used by this job. This field
-            cannot be specified in conjunction with git_branch or git_commit.
-
-            The maximum length is 255 characters.
-    GitCommitSource:
-      description: >-
-        This functionality is in Public Preview.
-
-
-        An optional specification for a remote repository containing the
-        notebooks used by this job's notebook tasks.
-      example:
-        git_url: https://github.com/databricks/databricks-cli
-        git_commit: e0056d01
-        git_provider: gitHub
-      required:
-        - git_url
-        - git_provider
-        - git_commit
-      properties:
-        git_url:
-          $ref: '#/components/schemas/GitURL'
-        git_provider:
-          $ref: '#/components/schemas/GitProvider'
-        git_commit:
-          type: string
-          example: e0056d01
-          description: >-
-            Commit to be checked out and used by this job. This field cannot be
-            specified in conjunction with git_branch or git_tag.
-
-            The maximum length is 64 characters.
-    GitSnapshotSource:
-      description: >-
-        This functionality is in Public Preview.
-
-
-        An optional specification for a remote repository containing the
-        notebooks used by this job's notebook tasks.
-      example:
-        git_url: https://github.com/databricks/databricks-cli
-        git_snapshot:
-          used_commit: 4506fdf41e9fa98090570a34df7a5bce163ff15f
-        git_provider: gitHub
-      required:
-        - git_url
-        - git_provider
-        - git_snapshot
-      properties:
-        git_url:
-          $ref: '#/components/schemas/GitURL'
-        git_provider:
-          $ref: '#/components/schemas/GitProvider'
-        git_snapshot:
-          $ref: '#/components/schemas/GitSnapshotSource'
-    GitSource:
-      description: >-
-        This functionality is in Public Preview.
-
-
-        An optional specification for a remote repository containing the
-        notebooks used by this job's notebook tasks.
-      example:
-        git_url: https://github.com/databricks/databricks-cli
-        git_branch: main
-        git_provider: gitHub
-      oneOf:
-        - $ref: '#/components/schemas/GitBranchSource'
-        - $ref: '#/components/schemas/GitTagSource'
-        - $ref: '#/components/schemas/GitCommitSource'
-        - $ref: '#/components/schemas/GitSnapshotSource'
     Job:
       properties:
         job_id:

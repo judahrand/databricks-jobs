@@ -16,6 +16,7 @@ import json
 import pprint
 import re  # noqa: F401
 from inspect import getfullargspec
+from typing import Optional
 
 from pydantic import BaseModel, Field, StrictStr
 
@@ -27,8 +28,8 @@ class GitSnapshot(BaseModel):
     Do not edit the class manually.
     """
 
-    used_commit: StrictStr = Field(
-        ...,
+    used_commit: Optional[StrictStr] = Field(
+        None,
         description="Commit that was used to execute the run. If git_branch was specified, this points to the HEAD of the branch at the time of the run; if git_tag was specified, this points to the commit the tag points to.",
     )
     __properties = ["used_commit"]

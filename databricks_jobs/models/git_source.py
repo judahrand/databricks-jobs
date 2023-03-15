@@ -20,17 +20,7 @@ from typing import Any, List, Optional
 
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
 
-from databricks_jobs.models.git_branch_source import GitBranchSource
-from databricks_jobs.models.git_commit_source import GitCommitSource
-from databricks_jobs.models.git_snapshot_source import GitSnapshotSource
-from databricks_jobs.models.git_tag_source import GitTagSource
-
-GITSOURCE_ONE_OF_SCHEMAS = [
-    "GitBranchSource",
-    "GitCommitSource",
-    "GitSnapshotSource",
-    "GitTagSource",
-]
+GITSOURCE_ONE_OF_SCHEMAS = ["object"]
 
 
 class GitSource(BaseModel):
@@ -40,14 +30,12 @@ class GitSource(BaseModel):
     Do not edit the class manually.
     """
 
-    # data type: GitBranchSource
-    oneof_schema_1_validator: Optional[GitBranchSource] = None
-    # data type: GitTagSource
-    oneof_schema_2_validator: Optional[GitTagSource] = None
-    # data type: GitCommitSource
-    oneof_schema_3_validator: Optional[GitCommitSource] = None
-    # data type: GitSnapshotSource
-    oneof_schema_4_validator: Optional[GitSnapshotSource] = None
+    # data type: object
+    oneof_schema_1_validator: Optional[Any] = None
+    # data type: object
+    oneof_schema_2_validator: Optional[Any] = None
+    # data type: object
+    oneof_schema_3_validator: Optional[Any] = None
     actual_instance: Any
     one_of_schemas: List[str] = Field(GITSOURCE_ONE_OF_SCHEMAS, const=True)
 
@@ -59,48 +47,34 @@ class GitSource(BaseModel):
         instance = cls()
         error_messages = []
         match = 0
-        # validate data type: GitBranchSource
-        if type(v) is not GitBranchSource:
-            error_messages.append(
-                f"Error! Input type `{type(v)}` is not `GitBranchSource`"
-            )
-        else:
+        # validate data type: object
+        try:
+            instance.oneof_schema_1_validator = v
             match += 1
-
-        # validate data type: GitTagSource
-        if type(v) is not GitTagSource:
-            error_messages.append(
-                f"Error! Input type `{type(v)}` is not `GitTagSource`"
-            )
-        else:
+        except ValidationError as e:
+            error_messages.append(str(e))
+        # validate data type: object
+        try:
+            instance.oneof_schema_2_validator = v
             match += 1
-
-        # validate data type: GitCommitSource
-        if type(v) is not GitCommitSource:
-            error_messages.append(
-                f"Error! Input type `{type(v)}` is not `GitCommitSource`"
-            )
-        else:
+        except ValidationError as e:
+            error_messages.append(str(e))
+        # validate data type: object
+        try:
+            instance.oneof_schema_3_validator = v
             match += 1
-
-        # validate data type: GitSnapshotSource
-        if type(v) is not GitSnapshotSource:
-            error_messages.append(
-                f"Error! Input type `{type(v)}` is not `GitSnapshotSource`"
-            )
-        else:
-            match += 1
-
+        except ValidationError as e:
+            error_messages.append(str(e))
         if match > 1:
             # more than 1 match
             raise ValueError(
-                "Multiple matches found when deserializing the JSON string into GitSource with oneOf schemas: GitBranchSource, GitCommitSource, GitSnapshotSource, GitTagSource. Details: "
+                "Multiple matches found when deserializing the JSON string into GitSource with oneOf schemas: object. Details: "
                 + ", ".join(error_messages)
             )
         elif match == 0:
             # no match
             raise ValueError(
-                "No match found when deserializing the JSON string into GitSource with oneOf schemas: GitBranchSource, GitCommitSource, GitSnapshotSource, GitTagSource. Details: "
+                "No match found when deserializing the JSON string into GitSource with oneOf schemas: object. Details: "
                 + ", ".join(error_messages)
             )
         else:
@@ -117,27 +91,30 @@ class GitSource(BaseModel):
         error_messages = []
         match = 0
 
-        # deserialize data into GitBranchSource
+        # deserialize data into object
         try:
-            instance.actual_instance = GitBranchSource.from_json(json_str)
+            # validation
+            instance.oneof_schema_1_validator = json.loads(json_str)
+            # assign value to actual_instance
+            instance.actual_instance = instance.oneof_schema_1_validator
             match += 1
         except ValidationError as e:
             error_messages.append(str(e))
-        # deserialize data into GitTagSource
+        # deserialize data into object
         try:
-            instance.actual_instance = GitTagSource.from_json(json_str)
+            # validation
+            instance.oneof_schema_2_validator = json.loads(json_str)
+            # assign value to actual_instance
+            instance.actual_instance = instance.oneof_schema_2_validator
             match += 1
         except ValidationError as e:
             error_messages.append(str(e))
-        # deserialize data into GitCommitSource
+        # deserialize data into object
         try:
-            instance.actual_instance = GitCommitSource.from_json(json_str)
-            match += 1
-        except ValidationError as e:
-            error_messages.append(str(e))
-        # deserialize data into GitSnapshotSource
-        try:
-            instance.actual_instance = GitSnapshotSource.from_json(json_str)
+            # validation
+            instance.oneof_schema_3_validator = json.loads(json_str)
+            # assign value to actual_instance
+            instance.actual_instance = instance.oneof_schema_3_validator
             match += 1
         except ValidationError as e:
             error_messages.append(str(e))
@@ -145,13 +122,13 @@ class GitSource(BaseModel):
         if match > 1:
             # more than 1 match
             raise ValueError(
-                "Multiple matches found when deserializing the JSON string into GitSource with oneOf schemas: GitBranchSource, GitCommitSource, GitSnapshotSource, GitTagSource. Details: "
+                "Multiple matches found when deserializing the JSON string into GitSource with oneOf schemas: object. Details: "
                 + ", ".join(error_messages)
             )
         elif match == 0:
             # no match
             raise ValueError(
-                "No match found when deserializing the JSON string into GitSource with oneOf schemas: GitBranchSource, GitCommitSource, GitSnapshotSource, GitTagSource. Details: "
+                "No match found when deserializing the JSON string into GitSource with oneOf schemas: object. Details: "
                 + ", ".join(error_messages)
             )
         else:

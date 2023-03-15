@@ -5,7 +5,7 @@ Read-only state of the remote repository at the time the job was run. This field
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**used_commit** | **str** | Commit that was used to execute the run. If git_branch was specified, this points to the HEAD of the branch at the time of the run; if git_tag was specified, this points to the commit the tag points to. | 
+**used_commit** | **str** | Commit that was used to execute the run. If git_branch was specified, this points to the HEAD of the branch at the time of the run; if git_tag was specified, this points to the commit the tag points to. | [optional] 
 
 ## Example
 
