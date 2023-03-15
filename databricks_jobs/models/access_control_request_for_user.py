@@ -34,6 +34,7 @@ class AccessControlRequestForUser(BaseModel):
         None, description="Email address for the user."
     )
     permission_level: Optional[PermissionLevel] = None
+    additional_properties: Dict[str, Any] = {}
     __properties = ["user_name", "permission_level"]
 
     class Config:
@@ -55,10 +56,17 @@ class AccessControlRequestForUser(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
+        _dict = self.dict(
+            by_alias=True, exclude={"additional_properties"}, exclude_none=True
+        )
         # override the default output from pydantic by calling `to_dict()` of permission_level
         if self.permission_level:
             _dict["permission_level"] = self.permission_level.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
@@ -80,4 +88,9 @@ class AccessControlRequestForUser(BaseModel):
                 else None,
             }
         )
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj

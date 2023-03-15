@@ -40,6 +40,7 @@ class ClusterSpec(BaseModel):
         None,
         description="An optional list of libraries to be installed on the cluster that executes the job. The default value is an empty list.",
     )
+    additional_properties: Dict[str, Any] = {}
     __properties = ["existing_cluster_id", "new_cluster", "libraries"]
 
     class Config:
@@ -61,7 +62,9 @@ class ClusterSpec(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
+        _dict = self.dict(
+            by_alias=True, exclude={"additional_properties"}, exclude_none=True
+        )
         # override the default output from pydantic by calling `to_dict()` of new_cluster
         if self.new_cluster:
             _dict["new_cluster"] = self.new_cluster.to_dict()
@@ -72,6 +75,11 @@ class ClusterSpec(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict["libraries"] = _items
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
@@ -96,4 +104,9 @@ class ClusterSpec(BaseModel):
                 else None,
             }
         )
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj

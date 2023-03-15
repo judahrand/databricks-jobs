@@ -38,6 +38,7 @@ class GitCommitSource(BaseModel):
         ...,
         description="Commit to be checked out and used by this job. This field cannot be specified in conjunction with git_branch or git_tag. The maximum length is 64 characters.",
     )
+    additional_properties: Dict[str, Any] = {}
     __properties = ["git_url", "git_provider", "git_commit"]
 
     class Config:
@@ -59,7 +60,14 @@ class GitCommitSource(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
+        _dict = self.dict(
+            by_alias=True, exclude={"additional_properties"}, exclude_none=True
+        )
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
@@ -78,4 +86,9 @@ class GitCommitSource(BaseModel):
                 "git_commit": obj.get("git_commit"),
             }
         )
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj

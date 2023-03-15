@@ -35,6 +35,7 @@ class JobsResetRequest(BaseModel):
         description="The canonical identifier of the job to reset. This field is required.",
     )
     new_settings: Optional[JobSettings] = None
+    additional_properties: Dict[str, Any] = {}
     __properties = ["job_id", "new_settings"]
 
     class Config:
@@ -56,10 +57,17 @@ class JobsResetRequest(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
+        _dict = self.dict(
+            by_alias=True, exclude={"additional_properties"}, exclude_none=True
+        )
         # override the default output from pydantic by calling `to_dict()` of new_settings
         if self.new_settings:
             _dict["new_settings"] = self.new_settings.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
@@ -79,4 +87,9 @@ class JobsResetRequest(BaseModel):
                 else None,
             }
         )
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj

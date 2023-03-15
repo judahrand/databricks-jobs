@@ -95,6 +95,7 @@ class ClusterAttributes(BaseModel):
         None,
         description="Determines whether encryption of the disks attached to the cluster locally is enabled.",
     )
+    additional_properties: Dict[str, Any] = {}
     __properties = [
         "cluster_name",
         "spark_version",
@@ -136,7 +137,9 @@ class ClusterAttributes(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
+        _dict = self.dict(
+            by_alias=True, exclude={"additional_properties"}, exclude_none=True
+        )
         # override the default output from pydantic by calling `to_dict()` of azure_attributes
         if self.azure_attributes:
             _dict["azure_attributes"] = self.azure_attributes.to_dict()
@@ -153,6 +156,11 @@ class ClusterAttributes(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of docker_image
         if self.docker_image:
             _dict["docker_image"] = self.docker_image.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
@@ -201,4 +209,9 @@ class ClusterAttributes(BaseModel):
                 "enable_local_disk_encryption": obj.get("enable_local_disk_encryption"),
             }
         )
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj

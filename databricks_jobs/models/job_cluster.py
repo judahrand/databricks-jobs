@@ -35,6 +35,7 @@ class JobCluster(BaseModel):
         description="A unique name for the job cluster. This field is required and must be unique within the job. `JobTaskSettings` may refer to this field to determine which cluster to launch for the task execution.",
     )
     new_cluster: Optional[NewCluster] = None
+    additional_properties: Dict[str, Any] = {}
     __properties = ["job_cluster_key", "new_cluster"]
 
     @validator("job_cluster_key")
@@ -62,10 +63,17 @@ class JobCluster(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
+        _dict = self.dict(
+            by_alias=True, exclude={"additional_properties"}, exclude_none=True
+        )
         # override the default output from pydantic by calling `to_dict()` of new_cluster
         if self.new_cluster:
             _dict["new_cluster"] = self.new_cluster.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
@@ -85,4 +93,9 @@ class JobCluster(BaseModel):
                 else None,
             }
         )
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj

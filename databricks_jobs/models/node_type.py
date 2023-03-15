@@ -56,6 +56,7 @@ class NodeType(BaseModel):
         description="Whether the node type is deprecated. Non-deprecated node types offer greater performance.",
     )
     node_info: Optional[ClusterCloudProviderNodeInfo] = None
+    additional_properties: Dict[str, Any] = {}
     __properties = [
         "node_type_id",
         "memory_mb",
@@ -85,10 +86,17 @@ class NodeType(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
+        _dict = self.dict(
+            by_alias=True, exclude={"additional_properties"}, exclude_none=True
+        )
         # override the default output from pydantic by calling `to_dict()` of node_info
         if self.node_info:
             _dict["node_info"] = self.node_info.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
@@ -115,4 +123,9 @@ class NodeType(BaseModel):
                 else None,
             }
         )
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj

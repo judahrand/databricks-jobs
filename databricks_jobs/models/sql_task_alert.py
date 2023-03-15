@@ -30,6 +30,7 @@ class SqlTaskAlert(BaseModel):
     alert_id: StrictStr = Field(
         ..., description="The canonical identifier of the SQL alert."
     )
+    additional_properties: Dict[str, Any] = {}
     __properties = ["alert_id"]
 
     class Config:
@@ -51,7 +52,14 @@ class SqlTaskAlert(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
+        _dict = self.dict(
+            by_alias=True, exclude={"additional_properties"}, exclude_none=True
+        )
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
@@ -64,4 +72,9 @@ class SqlTaskAlert(BaseModel):
             return SqlTaskAlert.parse_obj(obj)
 
         _obj = SqlTaskAlert.parse_obj({"alert_id": obj.get("alert_id")})
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj

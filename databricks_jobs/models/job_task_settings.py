@@ -101,6 +101,7 @@ class JobTaskSettings(BaseModel):
         None,
         description="An optional policy to specify whether to retry a task when it times out. The default behavior is to not retry on timeout.",
     )
+    additional_properties: Dict[str, Any] = {}
     __properties = [
         "task_key",
         "description",
@@ -155,7 +156,9 @@ class JobTaskSettings(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
+        _dict = self.dict(
+            by_alias=True, exclude={"additional_properties"}, exclude_none=True
+        )
         # override the default output from pydantic by calling `to_dict()` of each item in depends_on (list)
         _items = []
         if self.depends_on:
@@ -200,6 +203,11 @@ class JobTaskSettings(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of email_notifications
         if self.email_notifications:
             _dict["email_notifications"] = self.email_notifications.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
@@ -272,4 +280,9 @@ class JobTaskSettings(BaseModel):
                 "retry_on_timeout": obj.get("retry_on_timeout"),
             }
         )
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj

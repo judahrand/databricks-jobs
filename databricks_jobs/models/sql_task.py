@@ -43,6 +43,7 @@ class SqlTask(BaseModel):
         ...,
         description="The canonical identifier of the SQL warehouse. Only serverless and pro SQL warehouses are supported.",
     )
+    additional_properties: Dict[str, Any] = {}
     __properties = ["query", "dashboard", "alert", "parameters", "warehouse_id"]
 
     class Config:
@@ -64,7 +65,9 @@ class SqlTask(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
+        _dict = self.dict(
+            by_alias=True, exclude={"additional_properties"}, exclude_none=True
+        )
         # override the default output from pydantic by calling `to_dict()` of query
         if self.query:
             _dict["query"] = self.query.to_dict()
@@ -74,6 +77,11 @@ class SqlTask(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of alert
         if self.alert:
             _dict["alert"] = self.alert.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
@@ -100,4 +108,9 @@ class SqlTask(BaseModel):
                 "warehouse_id": obj.get("warehouse_id"),
             }
         )
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj

@@ -41,6 +41,7 @@ class RunState(BaseModel):
         None,
         description="A descriptive message for the current state. This field is unstructured, and its exact format is subject to change.",
     )
+    additional_properties: Dict[str, Any] = {}
     __properties = [
         "life_cycle_state",
         "result_state",
@@ -67,7 +68,14 @@ class RunState(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
+        _dict = self.dict(
+            by_alias=True, exclude={"additional_properties"}, exclude_none=True
+        )
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
@@ -87,4 +95,9 @@ class RunState(BaseModel):
                 "state_message": obj.get("state_message"),
             }
         )
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
