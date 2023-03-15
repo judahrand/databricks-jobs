@@ -1,4 +1,3 @@
-.github/workflows/python.yml
 .gitignore
 README.md
 databricks_jobs/__init__.py
