@@ -16,10 +16,12 @@ import json
 import pprint
 import re  # noqa: F401
 from inspect import getfullargspec
+from typing import Optional
 
 from pydantic import BaseModel, Field, StrictStr
 
 from databricks_jobs.models.git_provider import GitProvider
+from databricks_jobs.models.git_snapshot import GitSnapshot
 
 
 class GitCommitSource(BaseModel):
@@ -38,8 +40,9 @@ class GitCommitSource(BaseModel):
         ...,
         description="Commit to be checked out and used by this job. This field cannot be specified in conjunction with git_branch or git_tag. The maximum length is 64 characters.",
     )
+    git_snapshot: Optional[GitSnapshot] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["git_url", "git_provider", "git_commit"]
+    __properties = ["git_url", "git_provider", "git_commit", "git_snapshot"]
 
     class Config:
         allow_population_by_field_name = True
@@ -63,6 +66,9 @@ class GitCommitSource(BaseModel):
         _dict = self.dict(
             by_alias=True, exclude={"additional_properties"}, exclude_none=True
         )
+        # override the default output from pydantic by calling `to_dict()` of git_snapshot
+        if self.git_snapshot:
+            _dict["git_snapshot"] = self.git_snapshot.to_dict()
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
@@ -84,6 +90,9 @@ class GitCommitSource(BaseModel):
                 "git_url": obj.get("git_url"),
                 "git_provider": obj.get("git_provider"),
                 "git_commit": obj.get("git_commit"),
+                "git_snapshot": GitSnapshot.from_dict(obj.get("git_snapshot"))
+                if obj.get("git_snapshot") is not None
+                else None,
             }
         )
         # store additional fields in additional_properties

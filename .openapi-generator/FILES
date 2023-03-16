@@ -44,7 +44,6 @@ databricks_jobs/models/git_branch_source.py
 databricks_jobs/models/git_commit_source.py
 databricks_jobs/models/git_provider.py
 databricks_jobs/models/git_snapshot.py
-databricks_jobs/models/git_snapshot_source.py
 databricks_jobs/models/git_source.py
 databricks_jobs/models/git_tag_source.py
 databricks_jobs/models/init_script_info.py
@@ -175,7 +174,6 @@ docs/GitBranchSource.md
 docs/GitCommitSource.md
 docs/GitProvider.md
 docs/GitSnapshot.md
-docs/GitSnapshotSource.md
 docs/GitSource.md
 docs/GitTagSource.md
 docs/InitScriptInfo.md

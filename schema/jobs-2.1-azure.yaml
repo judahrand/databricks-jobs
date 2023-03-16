@@ -1041,6 +1041,8 @@ components:
             field cannot be specified in conjunction with git_tag or git_commit.
 
             The maximum length is 255 characters.
+        git_snapshot:
+          $ref: '#/components/schemas/GitSnapshot'
     GitTagSource:
       description: >-
         This functionality is in Public Preview.
@@ -1069,6 +1071,8 @@ components:
             cannot be specified in conjunction with git_branch or git_commit.
 
             The maximum length is 255 characters.
+        git_snapshot:
+          $ref: '#/components/schemas/GitSnapshot'
     GitCommitSource:
       description: >-
         This functionality is in Public Preview.
@@ -1097,29 +1101,8 @@ components:
             specified in conjunction with git_branch or git_tag.
 
             The maximum length is 64 characters.
-    GitSnapshotSource:
-      description: >-
-        This functionality is in Public Preview.
-
-
-        An optional specification for a remote repository containing the
-        notebooks used by this job's notebook tasks.
-      example:
-        git_url: https://github.com/databricks/databricks-cli
         git_snapshot:
-          used_commit: 4506fdf41e9fa98090570a34df7a5bce163ff15f
-        git_provider: gitHub
-      required:
-        - git_url
-        - git_provider
-        - git_snapshot
-      properties:
-        git_url:
-          $ref: '#/components/schemas/GitURL'
-        git_provider:
-          $ref: '#/components/schemas/GitProvider'
-        git_snapshot:
-          $ref: '#/components/schemas/GitSnapshotSource'
+          $ref: '#/components/schemas/GitSnapshot'
     GitSource:
       description: >-
         This functionality is in Public Preview.
@@ -1135,7 +1118,6 @@ components:
         - $ref: '#/components/schemas/GitBranchSource'
         - $ref: '#/components/schemas/GitTagSource'
         - $ref: '#/components/schemas/GitCommitSource'
-        - $ref: '#/components/schemas/GitSnapshotSource'
     Job:
       properties:
         job_id:

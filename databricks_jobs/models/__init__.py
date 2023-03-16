@@ -61,7 +61,6 @@ from databricks_jobs.models.git_branch_source import GitBranchSource
 from databricks_jobs.models.git_commit_source import GitCommitSource
 from databricks_jobs.models.git_provider import GitProvider
 from databricks_jobs.models.git_snapshot import GitSnapshot
-from databricks_jobs.models.git_snapshot_source import GitSnapshotSource
 from databricks_jobs.models.git_source import GitSource
 from databricks_jobs.models.git_tag_source import GitTagSource
 from databricks_jobs.models.init_script_info import InitScriptInfo

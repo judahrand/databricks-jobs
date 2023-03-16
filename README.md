@@ -149,7 +149,6 @@ Class | Method | HTTP request | Description
  - [GitCommitSource](docs/GitCommitSource.md)
  - [GitProvider](docs/GitProvider.md)
  - [GitSnapshot](docs/GitSnapshot.md)
- - [GitSnapshotSource](docs/GitSnapshotSource.md)
  - [GitSource](docs/GitSource.md)
  - [GitTagSource](docs/GitTagSource.md)
  - [InitScriptInfo](docs/InitScriptInfo.md)
