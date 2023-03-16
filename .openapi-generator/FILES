@@ -1,4 +1,3 @@
-.gitignore
 README.md
 databricks_jobs/__init__.py
 databricks_jobs/api/__init__.py
