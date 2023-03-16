@@ -47,7 +47,6 @@ class RunSubmitSettings(BaseModel):
         None,
         description="An optional token that can be used to guarantee the idempotency of job run requests. If a run with the provided token already exists, the request does not create a new run but returns the ID of the existing run instead. If a run with the provided token is deleted, an error is returned.  If you specify the idempotency token, upon failure you can retry until the request succeeds. Databricks guarantees that exactly one run is launched with that idempotency token.  This token must have at most 64 characters.  For more information, see [How to ensure idempotency for jobs](https://docs.microsoft.com/azure/databricks/kb/jobs/jobs-idempotency).",
     )
-    additional_properties: Dict[str, Any] = {}
     __properties = [
         "tasks",
         "run_name",
@@ -76,9 +75,7 @@ class RunSubmitSettings(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(
-            by_alias=True, exclude={"additional_properties"}, exclude_none=True
-        )
+        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
         # override the default output from pydantic by calling `to_dict()` of each item in tasks (list)
         _items = []
         if self.tasks:
@@ -92,11 +89,6 @@ class RunSubmitSettings(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of git_source
         if self.git_source:
             _dict["git_source"] = self.git_source.to_dict()
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
         return _dict
 
     @classmethod
@@ -128,9 +120,4 @@ class RunSubmitSettings(BaseModel):
                 "idempotency_token": obj.get("idempotency_token"),
             }
         )
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj

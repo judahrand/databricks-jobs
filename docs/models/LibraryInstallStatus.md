@@ -1,0 +1,11 @@
+# databricks_jobs.model.library_install_status.LibraryInstallStatus
+
+* `PENDING`: No action has yet been taken to install the library. This state should be very short lived. * `RESOLVING`: Metadata necessary to install the library is being retrieved from the provided repository. For Jar, Egg, and Whl libraries, this step is a no-op. * `INSTALLING`: The library is actively being installed, either by adding resources to Spark or executing system commands inside the Spark nodes. * `INSTALLED`: The library has been successfully instally. * `SKIPPED`: Installation on a Databricks Runtime 7.0 or above cluster was skipped due to Scala version incompatibility. * `FAILED`: Some step in installation failed. More information can be found in the messages field. * `UNINSTALL_ON_RESTART`: The library has been marked for removal. Libraries can be removed only when clusters are restarted, so libraries that enter this state remains until the cluster is restarted.
+
+## Model Type Info
+Input Type | Accessed Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+str,  | str,  | * &#x60;PENDING&#x60;: No action has yet been taken to install the library. This state should be very short lived. * &#x60;RESOLVING&#x60;: Metadata necessary to install the library is being retrieved from the provided repository. For Jar, Egg, and Whl libraries, this step is a no-op. * &#x60;INSTALLING&#x60;: The library is actively being installed, either by adding resources to Spark or executing system commands inside the Spark nodes. * &#x60;INSTALLED&#x60;: The library has been successfully instally. * &#x60;SKIPPED&#x60;: Installation on a Databricks Runtime 7.0 or above cluster was skipped due to Scala version incompatibility. * &#x60;FAILED&#x60;: Some step in installation failed. More information can be found in the messages field. * &#x60;UNINSTALL_ON_RESTART&#x60;: The library has been marked for removal. Libraries can be removed only when clusters are restarted, so libraries that enter this state remains until the cluster is restarted. | must be one of ["PENDING", "RESOLVING", "INSTALLING", "INSTALLED", "SKIPPED", "FAILED", "UNINSTALL_ON_RESTART", ] 
+
+[[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
+

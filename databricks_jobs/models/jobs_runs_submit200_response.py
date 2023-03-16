@@ -31,7 +31,6 @@ class JobsRunsSubmit200Response(BaseModel):
     run_id: Optional[StrictInt] = Field(
         None, description="The canonical identifier for the newly submitted run."
     )
-    additional_properties: Dict[str, Any] = {}
     __properties = ["run_id"]
 
     class Config:
@@ -53,14 +52,7 @@ class JobsRunsSubmit200Response(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(
-            by_alias=True, exclude={"additional_properties"}, exclude_none=True
-        )
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
+        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
         return _dict
 
     @classmethod
@@ -73,9 +65,4 @@ class JobsRunsSubmit200Response(BaseModel):
             return JobsRunsSubmit200Response.parse_obj(obj)
 
         _obj = JobsRunsSubmit200Response.parse_obj({"run_id": obj.get("run_id")})
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj

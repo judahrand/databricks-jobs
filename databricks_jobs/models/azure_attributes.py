@@ -40,7 +40,6 @@ class AzureAttributes(BaseModel):
         None,
         description="The max bid price used for Azure spot instances. You can set this to greater than or equal to the current spot price. You can also set this to -1 (the default), which specifies that the instance cannot be evicted on the basis of price. The price for the instance is the current price for spot instances or the price for a standard instance. You can view historical pricing and eviction rates in the Azure portal.",
     )
-    additional_properties: Dict[str, Any] = {}
     __properties = ["first_on_demand", "availability", "spot_bid_max_price"]
 
     @validator("availability")
@@ -73,14 +72,7 @@ class AzureAttributes(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(
-            by_alias=True, exclude={"additional_properties"}, exclude_none=True
-        )
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
+        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
         return _dict
 
     @classmethod
@@ -99,9 +91,4 @@ class AzureAttributes(BaseModel):
                 "spot_bid_max_price": obj.get("spot_bid_max_price"),
             }
         )
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj

@@ -31,7 +31,6 @@ class JobsDeleteRequest(BaseModel):
         ...,
         description="The canonical identifier of the job to delete. This field is required.",
     )
-    additional_properties: Dict[str, Any] = {}
     __properties = ["job_id"]
 
     class Config:
@@ -53,14 +52,7 @@ class JobsDeleteRequest(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(
-            by_alias=True, exclude={"additional_properties"}, exclude_none=True
-        )
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
+        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
         return _dict
 
     @classmethod
@@ -73,9 +65,4 @@ class JobsDeleteRequest(BaseModel):
             return JobsDeleteRequest.parse_obj(obj)
 
         _obj = JobsDeleteRequest.parse_obj({"job_id": obj.get("job_id")})
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj

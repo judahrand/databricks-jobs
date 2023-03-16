@@ -109,7 +109,6 @@ class Run(BaseModel):
         None,
         description="The sequence number of this run attempt for a triggered job run. The initial attempt of a run has an attempt_number of 0\\. If the initial run attempt fails, and the job has a retry policy (`max_retries` \\> 0), subsequent runs are created with an `original_attempt_run_id` of the original attempt’s ID and an incrementing `attempt_number`. Runs are retried only until they succeed, and the maximum `attempt_number` is the same as the `max_retries` value for the job.",
     )
-    additional_properties: Dict[str, Any] = {}
     __properties = [
         "job_id",
         "run_id",
@@ -156,9 +155,7 @@ class Run(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(
-            by_alias=True, exclude={"additional_properties"}, exclude_none=True
-        )
+        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
         # override the default output from pydantic by calling `to_dict()` of state
         if self.state:
             _dict["state"] = self.state.to_dict()
@@ -191,11 +188,6 @@ class Run(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of overriding_parameters
         if self.overriding_parameters:
             _dict["overriding_parameters"] = self.overriding_parameters.to_dict()
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
         return _dict
 
     @classmethod
@@ -259,9 +251,4 @@ class Run(BaseModel):
                 "attempt_number": obj.get("attempt_number"),
             }
         )
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj

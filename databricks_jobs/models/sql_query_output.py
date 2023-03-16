@@ -41,7 +41,6 @@ class SqlQueryOutput(BaseModel):
     output_link: Optional[StrictStr] = Field(
         None, description="The link to find the output results."
     )
-    additional_properties: Dict[str, Any] = {}
     __properties = ["query_text", "warehouse_id", "sql_statements", "output_link"]
 
     class Config:
@@ -63,17 +62,10 @@ class SqlQueryOutput(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(
-            by_alias=True, exclude={"additional_properties"}, exclude_none=True
-        )
+        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
         # override the default output from pydantic by calling `to_dict()` of sql_statements
         if self.sql_statements:
             _dict["sql_statements"] = self.sql_statements.to_dict()
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
         return _dict
 
     @classmethod
@@ -97,9 +89,4 @@ class SqlQueryOutput(BaseModel):
                 "output_link": obj.get("output_link"),
             }
         )
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj

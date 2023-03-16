@@ -31,7 +31,6 @@ class GitSnapshot(BaseModel):
         ...,
         description="Commit that was used to execute the run. If git_branch was specified, this points to the HEAD of the branch at the time of the run; if git_tag was specified, this points to the commit the tag points to.",
     )
-    additional_properties: Dict[str, Any] = {}
     __properties = ["used_commit"]
 
     class Config:
@@ -53,14 +52,7 @@ class GitSnapshot(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(
-            by_alias=True, exclude={"additional_properties"}, exclude_none=True
-        )
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
+        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
         return _dict
 
     @classmethod
@@ -73,9 +65,4 @@ class GitSnapshot(BaseModel):
             return GitSnapshot.parse_obj(obj)
 
         _obj = GitSnapshot.parse_obj({"used_commit": obj.get("used_commit")})
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj

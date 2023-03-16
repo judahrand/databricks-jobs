@@ -90,7 +90,6 @@ class NewTaskCluster(BaseModel):
         None,
         description="The type of runtime engine to use. If not specified, the runtime engine type is inferred based on the `spark_version` value. Allowed values include:  * `PHOTON`: Use the Photon runtime engine type. * `STANDARD`: Use the standard runtime engine type.  This field is optional.",
     )
-    additional_properties: Dict[str, Any] = {}
     __properties = [
         "num_workers",
         "autoscale",
@@ -130,9 +129,7 @@ class NewTaskCluster(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(
-            by_alias=True, exclude={"additional_properties"}, exclude_none=True
-        )
+        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
         # override the default output from pydantic by calling `to_dict()` of autoscale
         if self.autoscale:
             _dict["autoscale"] = self.autoscale.to_dict()
@@ -152,11 +149,6 @@ class NewTaskCluster(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of docker_image
         if self.docker_image:
             _dict["docker_image"] = self.docker_image.to_dict()
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
         return _dict
 
     @classmethod
@@ -205,9 +197,4 @@ class NewTaskCluster(BaseModel):
                 "runtime_engine": obj.get("runtime_engine"),
             }
         )
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj

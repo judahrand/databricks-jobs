@@ -51,7 +51,6 @@ class SqlDashboardWidgetOutput(BaseModel):
         None,
         description="Time (in epoch milliseconds) when execution of the SQL widget ends.",
     )
-    additional_properties: Dict[str, Any] = {}
     __properties = [
         "widget_id",
         "widget_title",
@@ -92,17 +91,10 @@ class SqlDashboardWidgetOutput(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(
-            by_alias=True, exclude={"additional_properties"}, exclude_none=True
-        )
+        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
         # override the default output from pydantic by calling `to_dict()` of error
         if self.error:
             _dict["error"] = self.error.to_dict()
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
         return _dict
 
     @classmethod
@@ -127,9 +119,4 @@ class SqlDashboardWidgetOutput(BaseModel):
                 "end_time": obj.get("end_time"),
             }
         )
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj

@@ -41,7 +41,6 @@ class GitBranchSource(BaseModel):
         description="Name of the branch to be checked out and used by this job. This field cannot be specified in conjunction with git_tag or git_commit. The maximum length is 255 characters.",
     )
     git_snapshot: Optional[GitSnapshot] = None
-    additional_properties: Dict[str, Any] = {}
     __properties = ["git_url", "git_provider", "git_branch", "git_snapshot"]
 
     class Config:
@@ -63,17 +62,10 @@ class GitBranchSource(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(
-            by_alias=True, exclude={"additional_properties"}, exclude_none=True
-        )
+        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
         # override the default output from pydantic by calling `to_dict()` of git_snapshot
         if self.git_snapshot:
             _dict["git_snapshot"] = self.git_snapshot.to_dict()
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
         return _dict
 
     @classmethod
@@ -95,9 +87,4 @@ class GitBranchSource(BaseModel):
                 else None,
             }
         )
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj

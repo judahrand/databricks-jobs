@@ -32,7 +32,6 @@ class DockerImage(BaseModel):
 
     url: Optional[StrictStr] = Field(None, description="URL for the Docker image.")
     basic_auth: Optional[DockerBasicAuth] = None
-    additional_properties: Dict[str, Any] = {}
     __properties = ["url", "basic_auth"]
 
     class Config:
@@ -54,17 +53,10 @@ class DockerImage(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(
-            by_alias=True, exclude={"additional_properties"}, exclude_none=True
-        )
+        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
         # override the default output from pydantic by calling `to_dict()` of basic_auth
         if self.basic_auth:
             _dict["basic_auth"] = self.basic_auth.to_dict()
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
         return _dict
 
     @classmethod
@@ -84,9 +76,4 @@ class DockerImage(BaseModel):
                 else None,
             }
         )
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj

@@ -45,7 +45,6 @@ class JobTask(BaseModel):
     python_wheel_task: Optional[PythonWheelTask] = None
     sql_task: Optional[SqlTask] = None
     dbt_task: Optional[DbtTask] = None
-    additional_properties: Dict[str, Any] = {}
     __properties = [
         "notebook_task",
         "spark_jar_task",
@@ -76,9 +75,7 @@ class JobTask(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(
-            by_alias=True, exclude={"additional_properties"}, exclude_none=True
-        )
+        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
         # override the default output from pydantic by calling `to_dict()` of notebook_task
         if self.notebook_task:
             _dict["notebook_task"] = self.notebook_task.to_dict()
@@ -103,11 +100,6 @@ class JobTask(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of dbt_task
         if self.dbt_task:
             _dict["dbt_task"] = self.dbt_task.to_dict()
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
         return _dict
 
     @classmethod
@@ -153,9 +145,4 @@ class JobTask(BaseModel):
                 else None,
             }
         )
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj
