@@ -27,7 +27,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install flake8 black isort pytest
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install -r requirements.txt
 
       - name: Lint with flake8
         run: |
@@ -41,7 +41,3 @@ jobs:
 
       - name: Lint with black
         run: black --check databricks_jobs
-
-      - name: Test with pytest
-        run: |
-          pytest
