@@ -1,5 +1,5 @@
---- schema/original-jobs-2.1-azure.yaml	2023-03-16 14:17:26
-+++ schema/jobs-2.1-azure.yaml	2023-03-16 14:17:23
+--- jobs-2.1-azure.yaml	2023-03-02 20:38:44
++++ modified-jobs-2.1-azure.yaml	2023-03-17 13:31:28
 @@ -1,4 +1,4 @@
 -openapi: 3.1.0
 +openapi: 3.0.3
@@ -231,6 +231,15 @@
            description: >-
              Optional location type of the notebook. When set to `WORKSPACE`, the
              notebook will be retrieved from the local Azure Databricks
+@@ -2247,7 +2300,7 @@
+         The type of the run.
+ 
+         * `JOB_RUN` \- Normal job run. A run created with [Run
+-        now](https://docs.microsoft.com/azure/databricks/dev-tools/api/latest/jobs#operation/JobsRunNow).  
++        now](https://docs.microsoft.com/azure/databricks/dev-tools/api/latest/jobs#operation/JobsRunNow).
+ 
+         * `WORKFLOW_RUN` \- Workflow run. A run created with
+         [dbutils.notebook.run](https://docs.microsoft.com/azure/databricks/dev-tools/databricks-utils#dbutils-workflow).
 @@ -2386,6 +2439,8 @@
              support custom parameters.
          dbt_commands:
@@ -249,3 +258,28 @@
            example:
              - dbt deps
              - dbt seed
+@@ -3097,13 +3154,13 @@
+ 
+             * ClusterId: <id-of-cluster>
+ 
+-            * Name: <Databricks internal use>  
++            * Name: <Databricks internal use>
+ 
+             On job clusters:
+ 
+             * RunName: <name-of-job>
+ 
+-            * JobId: <id-of-job>  
++            * JobId: <id-of-job>
+ 
+             On resources used by Databricks SQL:
+ 
+@@ -3849,7 +3906,7 @@
+         [Troubleshooting](https://docs.microsoft.com/azure/databricks/data/metastores/external-hive-metastore#troubleshooting).
+ 
+         * DBFS_COMPONENT_UNHEALTHY: The cluster failed to start because
+-        Databricks File System (DBFS) could not be reached. 
++        Databricks File System (DBFS) could not be reached.
+ 
+         * AZURE_RESOURCE_PROVIDER_THROTTLING: Azure Databricks reached the Azure
+         Resource Provider request limit. Specifically, the API request rate to

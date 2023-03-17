@@ -31,13 +31,33 @@ class TerminationParameter(BaseModel):
     username: Optional[StrictStr] = Field(
         None, description="The username of the user who terminated the cluster."
     )
-    azure_error_code: Optional[StrictStr] = Field(
+    aws_api_error_code: Optional[StrictStr] = Field(
         None,
-        description="The Azure provided error code describing why cluster nodes could not be provisioned. For reference, see: [https://docs.microsoft.com/azure/virtual-machines/windows/error-messages](https://docs.microsoft.com/azure/virtual-machines/windows/error-messages).",
+        description="The AWS provided error code describing why cluster nodes could not be provisioned. For example, `InstanceLimitExceeded` indicates that the limit of EC2 instances for a specific instance type has been exceeded. For reference, see: <https://docs.aws.amazon.com/AWSEC2/latest/APIReference/query-api-troubleshooting.html>.",
     )
-    azure_error_message: Optional[StrictStr] = Field(
+    aws_instance_state_reason: Optional[StrictStr] = Field(
         None,
-        description="Human-readable context of various failures from Azure. This field is unstructured, and its exact format is subject to change.",
+        description="The AWS provided state reason describing why the driver node was terminated. For example, `Client.VolumeLimitExceeded` indicates that the limit of EBS volumes or total EBS volume storage has been exceeded. For reference, see <https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_StateReason.html>.",
+    )
+    aws_spot_request_status: Optional[StrictStr] = Field(
+        None,
+        description="Describes why a spot request could not be fulfilled. For example, `price-too-low` indicates that the max price was lower than the current spot price. For reference, see: <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-bid-status.html#spot-instance-bid-status-understand>.",
+    )
+    aws_spot_request_fault_code: Optional[StrictStr] = Field(
+        None,
+        description="Provides additional details when a spot request fails. For example `InsufficientFreeAddressesInSubnet` indicates the subnet does not have free IP addresses to accommodate the new instance. For reference, see <https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-spot-instance-requests.html>.",
+    )
+    aws_impaired_status_details: Optional[StrictStr] = Field(
+        None,
+        description="The AWS provided status check which failed and induced a node loss. This status may correspond to a failed instance or system check. For reference, see <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html>.",
+    )
+    aws_instance_status_event: Optional[StrictStr] = Field(
+        None,
+        description="The AWS provided scheduled event (for example reboot) which induced a node loss. For reference, see <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-instances-status-check_sched.html>.",
+    )
+    aws_error_message: Optional[StrictStr] = Field(
+        None,
+        description="Human-readable context of various failures from AWS. This field is unstructured, and its exact format is subject to change.",
     )
     databricks_error_message: Optional[StrictStr] = Field(
         None,
@@ -57,15 +77,30 @@ class TerminationParameter(BaseModel):
         None,
         description="The [error code](https://docs.microsoft.com/azure/databricks/dev-tools/api/latest/clusters#clusterterminationreasonpoolclusterterminationcode) for cluster failures specific to a pool.",
     )
+    azure_error_code: Optional[StrictStr] = Field(
+        None,
+        description="The Azure provided error code describing why cluster nodes could not be provisioned. For reference, see: [https://docs.microsoft.com/azure/virtual-machines/windows/error-messages](https://docs.microsoft.com/azure/virtual-machines/windows/error-messages).",
+    )
+    azure_error_message: Optional[StrictStr] = Field(
+        None,
+        description="Human-readable context of various failures from Azure. This field is unstructured, and its exact format is subject to change.",
+    )
     __properties = [
         "username",
-        "azure_error_code",
-        "azure_error_message",
+        "aws_api_error_code",
+        "aws_instance_state_reason",
+        "aws_spot_request_status",
+        "aws_spot_request_fault_code",
+        "aws_impaired_status_details",
+        "aws_instance_status_event",
+        "aws_error_message",
         "databricks_error_message",
         "inactivity_duration_min",
         "instance_id",
         "instance_pool_id",
         "instance_pool_error_code",
+        "azure_error_code",
+        "azure_error_message",
     ]
 
     class Config:
@@ -102,13 +137,20 @@ class TerminationParameter(BaseModel):
         _obj = TerminationParameter.parse_obj(
             {
                 "username": obj.get("username"),
-                "azure_error_code": obj.get("azure_error_code"),
-                "azure_error_message": obj.get("azure_error_message"),
+                "aws_api_error_code": obj.get("aws_api_error_code"),
+                "aws_instance_state_reason": obj.get("aws_instance_state_reason"),
+                "aws_spot_request_status": obj.get("aws_spot_request_status"),
+                "aws_spot_request_fault_code": obj.get("aws_spot_request_fault_code"),
+                "aws_impaired_status_details": obj.get("aws_impaired_status_details"),
+                "aws_instance_status_event": obj.get("aws_instance_status_event"),
+                "aws_error_message": obj.get("aws_error_message"),
                 "databricks_error_message": obj.get("databricks_error_message"),
                 "inactivity_duration_min": obj.get("inactivity_duration_min"),
                 "instance_id": obj.get("instance_id"),
                 "instance_pool_id": obj.get("instance_pool_id"),
                 "instance_pool_error_code": obj.get("instance_pool_error_code"),
+                "azure_error_code": obj.get("azure_error_code"),
+                "azure_error_message": obj.get("azure_error_message"),
             }
         )
         return _obj

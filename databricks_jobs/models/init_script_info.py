@@ -18,11 +18,12 @@ import re  # noqa: F401
 from inspect import getfullargspec
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from databricks_jobs.models.adlsgen2_info import Adlsgen2Info
 from databricks_jobs.models.dbfs_storage_info import DbfsStorageInfo
 from databricks_jobs.models.file_storage_info import FileStorageInfo
+from databricks_jobs.models.s3_storage_info import S3StorageInfo
 
 
 class InitScriptInfo(BaseModel):
@@ -34,8 +35,9 @@ class InitScriptInfo(BaseModel):
 
     dbfs: Optional[DbfsStorageInfo] = None
     file: Optional[FileStorageInfo] = None
+    s3: Optional[S3StorageInfo] = Field(None, alias="S3")
     abfss: Optional[Adlsgen2Info] = None
-    __properties = ["dbfs", "file", "abfss"]
+    __properties = ["dbfs", "file", "S3", "abfss"]
 
     class Config:
         allow_population_by_field_name = True
@@ -63,6 +65,9 @@ class InitScriptInfo(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of file
         if self.file:
             _dict["file"] = self.file.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of s3
+        if self.s3:
+            _dict["S3"] = self.s3.to_dict()
         # override the default output from pydantic by calling `to_dict()` of abfss
         if self.abfss:
             _dict["abfss"] = self.abfss.to_dict()
@@ -84,6 +89,9 @@ class InitScriptInfo(BaseModel):
                 else None,
                 "file": FileStorageInfo.from_dict(obj.get("file"))
                 if obj.get("file") is not None
+                else None,
+                "s3": S3StorageInfo.from_dict(obj.get("S3"))
+                if obj.get("S3") is not None
                 else None,
                 "abfss": Adlsgen2Info.from_dict(obj.get("abfss"))
                 if obj.get("abfss") is not None

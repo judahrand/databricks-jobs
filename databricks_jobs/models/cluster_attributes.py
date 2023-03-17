@@ -20,10 +20,12 @@ from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr
 
+from databricks_jobs.models.aws_attributes import AwsAttributes
 from databricks_jobs.models.azure_attributes import AzureAttributes
 from databricks_jobs.models.cluster_log_conf import ClusterLogConf
 from databricks_jobs.models.cluster_source import ClusterSource
 from databricks_jobs.models.docker_image import DockerImage
+from databricks_jobs.models.gcp_attributes import GcpAttributes
 from databricks_jobs.models.init_script_info import InitScriptInfo
 
 
@@ -46,7 +48,7 @@ class ClusterAttributes(BaseModel):
         None,
         description="An arbitrary object where the object key is a configuration propery name and the value is a configuration property value.",
     )
-    azure_attributes: Optional[AzureAttributes] = None
+    aws_attributes: Optional[AwsAttributes] = None
     node_type_id: Optional[StrictStr] = Field(
         None,
         description="This field encodes, through a single value, the resources available to each of the Spark nodes in this cluster. For example, the Spark nodes can be provisioned and optimized for memory or compute intensive workloads A list of available node types can be retrieved by using the [List node types](https://docs.microsoft.com/azure/databricks/dev-tools/api/latest/clusters#list-node-types) API call.",
@@ -95,11 +97,13 @@ class ClusterAttributes(BaseModel):
         None,
         description="Determines whether encryption of the disks attached to the cluster locally is enabled.",
     )
+    gcp_attributes: Optional[GcpAttributes] = None
+    azure_attributes: Optional[AzureAttributes] = None
     __properties = [
         "cluster_name",
         "spark_version",
         "spark_conf",
-        "azure_attributes",
+        "aws_attributes",
         "node_type_id",
         "driver_node_type_id",
         "ssh_public_keys",
@@ -115,6 +119,8 @@ class ClusterAttributes(BaseModel):
         "cluster_source",
         "policy_id",
         "enable_local_disk_encryption",
+        "gcp_attributes",
+        "azure_attributes",
     ]
 
     class Config:
@@ -137,9 +143,9 @@ class ClusterAttributes(BaseModel):
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
         _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of azure_attributes
-        if self.azure_attributes:
-            _dict["azure_attributes"] = self.azure_attributes.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of aws_attributes
+        if self.aws_attributes:
+            _dict["aws_attributes"] = self.aws_attributes.to_dict()
         # override the default output from pydantic by calling `to_dict()` of cluster_log_conf
         if self.cluster_log_conf:
             _dict["cluster_log_conf"] = self.cluster_log_conf.to_dict()
@@ -153,6 +159,12 @@ class ClusterAttributes(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of docker_image
         if self.docker_image:
             _dict["docker_image"] = self.docker_image.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of gcp_attributes
+        if self.gcp_attributes:
+            _dict["gcp_attributes"] = self.gcp_attributes.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of azure_attributes
+        if self.azure_attributes:
+            _dict["azure_attributes"] = self.azure_attributes.to_dict()
         return _dict
 
     @classmethod
@@ -169,10 +181,8 @@ class ClusterAttributes(BaseModel):
                 "cluster_name": obj.get("cluster_name"),
                 "spark_version": obj.get("spark_version"),
                 "spark_conf": obj.get("spark_conf"),
-                "azure_attributes": AzureAttributes.from_dict(
-                    obj.get("azure_attributes")
-                )
-                if obj.get("azure_attributes") is not None
+                "aws_attributes": AwsAttributes.from_dict(obj.get("aws_attributes"))
+                if obj.get("aws_attributes") is not None
                 else None,
                 "node_type_id": obj.get("node_type_id"),
                 "driver_node_type_id": obj.get("driver_node_type_id"),
@@ -199,6 +209,14 @@ class ClusterAttributes(BaseModel):
                 "cluster_source": obj.get("cluster_source"),
                 "policy_id": obj.get("policy_id"),
                 "enable_local_disk_encryption": obj.get("enable_local_disk_encryption"),
+                "gcp_attributes": GcpAttributes.from_dict(obj.get("gcp_attributes"))
+                if obj.get("gcp_attributes") is not None
+                else None,
+                "azure_attributes": AzureAttributes.from_dict(
+                    obj.get("azure_attributes")
+                )
+                if obj.get("azure_attributes") is not None
+                else None,
             }
         )
         return _obj

@@ -13,6 +13,7 @@ databricks_jobs/models/access_control_request_for_service_principal.py
 databricks_jobs/models/access_control_request_for_user.py
 databricks_jobs/models/adlsgen2_info.py
 databricks_jobs/models/auto_scale.py
+databricks_jobs/models/aws_attributes.py
 databricks_jobs/models/azure_attributes.py
 databricks_jobs/models/can_manage.py
 databricks_jobs/models/can_manage_run.py
@@ -39,6 +40,7 @@ databricks_jobs/models/docker_image.py
 databricks_jobs/models/error.py
 databricks_jobs/models/event_details.py
 databricks_jobs/models/file_storage_info.py
+databricks_jobs/models/gcp_attributes.py
 databricks_jobs/models/git_branch_source.py
 databricks_jobs/models/git_commit_source.py
 databricks_jobs/models/git_provider.py
@@ -106,8 +108,10 @@ databricks_jobs/models/run_submit_settings.py
 databricks_jobs/models/run_submit_task_settings.py
 databricks_jobs/models/run_task.py
 databricks_jobs/models/run_type.py
+databricks_jobs/models/s3_storage_info.py
 databricks_jobs/models/spark_jar_task.py
 databricks_jobs/models/spark_node.py
+databricks_jobs/models/spark_node_aws_attributes.py
 databricks_jobs/models/spark_python_task.py
 databricks_jobs/models/spark_submit_task.py
 databricks_jobs/models/spark_version.py
@@ -142,6 +146,7 @@ docs/AccessControlRequestForServicePrincipal.md
 docs/AccessControlRequestForUser.md
 docs/Adlsgen2Info.md
 docs/AutoScale.md
+docs/AwsAttributes.md
 docs/AzureAttributes.md
 docs/CanManage.md
 docs/CanManageRun.md
@@ -169,6 +174,7 @@ docs/DockerImage.md
 docs/Error.md
 docs/EventDetails.md
 docs/FileStorageInfo.md
+docs/GcpAttributes.md
 docs/GitBranchSource.md
 docs/GitCommitSource.md
 docs/GitProvider.md
@@ -236,8 +242,10 @@ docs/RunSubmitSettings.md
 docs/RunSubmitTaskSettings.md
 docs/RunTask.md
 docs/RunType.md
+docs/S3StorageInfo.md
 docs/SparkJarTask.md
 docs/SparkNode.md
+docs/SparkNodeAwsAttributes.md
 docs/SparkPythonTask.md
 docs/SparkSubmitTask.md
 docs/SparkVersion.md

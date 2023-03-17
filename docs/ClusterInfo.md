@@ -15,9 +15,10 @@ Name | Type | Description | Notes
 **cluster_name** | **str** | Cluster name requested by the user. This doesn’t have to be unique. If not specified at creation, the cluster name is an empty string. | [optional] 
 **spark_version** | **str** | The runtime version of the cluster. You can retrieve a list of available runtime versions by using the [Runtime versions](https://docs.microsoft.com/azure/databricks/dev-tools/api/latest/clusters#runtime-versions) API call. | [optional] 
 **spark_conf** | **Dict[str, object]** | An arbitrary object where the object key is a configuration propery name and the value is a configuration property value. | [optional] 
-**azure_attributes** | [**AzureAttributes**](AzureAttributes.md) |  | [optional] 
+**aws_attributes** | [**AwsAttributes**](AwsAttributes.md) |  | [optional] 
 **node_type_id** | **str** | This field encodes, through a single value, the resources available to each of the Spark nodes in this cluster. For example, the Spark nodes can be provisioned and optimized for memory or compute intensive workloads. A list of available node types can be retrieved by using the [List node types](https://docs.microsoft.com/azure/databricks/dev-tools/api/latest/clusters#list-node-types) API call. | [optional] 
 **driver_node_type_id** | **str** | The node type of the Spark driver. This field is optional; if unset, the driver node type is set as the same value as &#x60;node_type_id&#x60; defined above. | [optional] 
+**ssh_public_keys** | **List[str]** | Set to empty array. Cluster SSH is not supported. | [optional] 
 **custom_tags** | **List[Dict]** | An object containing a set of tags for cluster resources. Databricks tags all cluster resources (such as VMs) with these tags in addition to default_tags. **Note**: * Tags are not supported on legacy node types such as compute-optimized and memory-optimized * Databricks allows at most 45 custom tags | [optional] 
 **cluster_log_conf** | [**ClusterLogConf**](ClusterLogConf.md) |  | [optional] 
 **init_scripts** | [**List[InitScriptInfo]**](InitScriptInfo.md) | The configuration for storing init scripts. Any number of destinations can be specified. The scripts are executed sequentially in the order provided. If &#x60;cluster_log_conf&#x60; is specified, init script logs are sent to &#x60;&lt;destination&gt;/&lt;cluster-ID&gt;/init_scripts&#x60;. | [optional] 
@@ -26,6 +27,7 @@ Name | Type | Description | Notes
 **autotermination_minutes** | **int** | Automatically terminates the cluster after it is inactive for this time in minutes. If not set, this cluster is not be automatically terminated. If specified, the threshold must be between 10 and 10000 minutes. You can also set this value to 0 to explicitly disable automatic termination. | [optional] 
 **enable_elastic_disk** | **bool** | Autoscaling Local Storage: when enabled, this cluster dynamically acquires additional disk space when its Spark workers are running low on disk space. See [Autoscaling local storage](https://docs.microsoft.com/azure/databricks/clusters/configure#autoscaling-local-storage-azure) for details. | [optional] 
 **instance_pool_id** | **str** | The optional ID of the instance pool to which the cluster belongs. Refer to [Pools](https://docs.microsoft.com/azure/databricks/clusters/pools) for details. | [optional] 
+**cluster_source** | [**ClusterSource**](ClusterSource.md) |  | [optional] 
 **state** | [**ClusterState**](ClusterState.md) |  | [optional] 
 **state_message** | **str** | A message associated with the most recent state transition (for example, the reason why the cluster entered a &#x60;TERMINATED&#x60; state). This field is unstructured, and its exact format is subject to change. | [optional] 
 **start_time** | **int** | Time (in epoch milliseconds) when the cluster creation request was received (when the cluster entered a &#x60;PENDING&#x60; state). | [optional] 
@@ -37,6 +39,8 @@ Name | Type | Description | Notes
 **default_tags** | **Dict[str, str]** | An object with key value pairs. The key length must be between 1 and 127 UTF-8 characters, inclusive. The value length must be less than or equal to 255 UTF-8 characters. | [optional] 
 **cluster_log_status** | [**LogSyncStatus**](LogSyncStatus.md) |  | [optional] 
 **termination_reason** | [**TerminationReason**](TerminationReason.md) |  | [optional] 
+**gcp_attributes** | [**GcpAttributes**](GcpAttributes.md) |  | [optional] 
+**azure_attributes** | [**AzureAttributes**](AzureAttributes.md) |  | [optional] 
 
 ## Example
 

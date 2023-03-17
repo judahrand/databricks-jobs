@@ -21,10 +21,13 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 
 from databricks_jobs.models.auto_scale import AutoScale
+from databricks_jobs.models.aws_attributes import AwsAttributes
 from databricks_jobs.models.azure_attributes import AzureAttributes
 from databricks_jobs.models.cluster_log_conf import ClusterLogConf
+from databricks_jobs.models.cluster_source import ClusterSource
 from databricks_jobs.models.cluster_state import ClusterState
 from databricks_jobs.models.docker_image import DockerImage
+from databricks_jobs.models.gcp_attributes import GcpAttributes
 from databricks_jobs.models.init_script_info import InitScriptInfo
 from databricks_jobs.models.log_sync_status import LogSyncStatus
 from databricks_jobs.models.spark_node import SparkNode
@@ -75,7 +78,7 @@ class ClusterInfo(BaseModel):
         None,
         description="An arbitrary object where the object key is a configuration propery name and the value is a configuration property value.",
     )
-    azure_attributes: Optional[AzureAttributes] = None
+    aws_attributes: Optional[AwsAttributes] = None
     node_type_id: Optional[StrictStr] = Field(
         None,
         description="This field encodes, through a single value, the resources available to each of the Spark nodes in this cluster. For example, the Spark nodes can be provisioned and optimized for memory or compute intensive workloads. A list of available node types can be retrieved by using the [List node types](https://docs.microsoft.com/azure/databricks/dev-tools/api/latest/clusters#list-node-types) API call.",
@@ -83,6 +86,9 @@ class ClusterInfo(BaseModel):
     driver_node_type_id: Optional[StrictStr] = Field(
         None,
         description="The node type of the Spark driver. This field is optional; if unset, the driver node type is set as the same value as `node_type_id` defined above.",
+    )
+    ssh_public_keys: Optional[List[StrictStr]] = Field(
+        None, description="Set to empty array. Cluster SSH is not supported."
     )
     custom_tags: Optional[List[Dict[str, StrictStr]]] = Field(
         None,
@@ -110,6 +116,7 @@ class ClusterInfo(BaseModel):
         None,
         description="The optional ID of the instance pool to which the cluster belongs. Refer to [Pools](https://docs.microsoft.com/azure/databricks/clusters/pools) for details.",
     )
+    cluster_source: Optional[ClusterSource] = None
     state: Optional[ClusterState] = None
     state_message: Optional[StrictStr] = Field(
         None,
@@ -144,6 +151,8 @@ class ClusterInfo(BaseModel):
     )
     cluster_log_status: Optional[LogSyncStatus] = None
     termination_reason: Optional[TerminationReason] = None
+    gcp_attributes: Optional[GcpAttributes] = None
+    azure_attributes: Optional[AzureAttributes] = None
     __properties = [
         "num_workers",
         "autoscale",
@@ -156,9 +165,10 @@ class ClusterInfo(BaseModel):
         "cluster_name",
         "spark_version",
         "spark_conf",
-        "azure_attributes",
+        "aws_attributes",
         "node_type_id",
         "driver_node_type_id",
+        "ssh_public_keys",
         "custom_tags",
         "cluster_log_conf",
         "init_scripts",
@@ -167,6 +177,7 @@ class ClusterInfo(BaseModel):
         "autotermination_minutes",
         "enable_elastic_disk",
         "instance_pool_id",
+        "cluster_source",
         "state",
         "state_message",
         "start_time",
@@ -178,6 +189,8 @@ class ClusterInfo(BaseModel):
         "default_tags",
         "cluster_log_status",
         "termination_reason",
+        "gcp_attributes",
+        "azure_attributes",
     ]
 
     class Config:
@@ -213,9 +226,9 @@ class ClusterInfo(BaseModel):
                 if _item:
                     _items.append(_item.to_dict())
             _dict["executors"] = _items
-        # override the default output from pydantic by calling `to_dict()` of azure_attributes
-        if self.azure_attributes:
-            _dict["azure_attributes"] = self.azure_attributes.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of aws_attributes
+        if self.aws_attributes:
+            _dict["aws_attributes"] = self.aws_attributes.to_dict()
         # override the default output from pydantic by calling `to_dict()` of cluster_log_conf
         if self.cluster_log_conf:
             _dict["cluster_log_conf"] = self.cluster_log_conf.to_dict()
@@ -235,6 +248,12 @@ class ClusterInfo(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of termination_reason
         if self.termination_reason:
             _dict["termination_reason"] = self.termination_reason.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of gcp_attributes
+        if self.gcp_attributes:
+            _dict["gcp_attributes"] = self.gcp_attributes.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of azure_attributes
+        if self.azure_attributes:
+            _dict["azure_attributes"] = self.azure_attributes.to_dict()
         return _dict
 
     @classmethod
@@ -267,13 +286,12 @@ class ClusterInfo(BaseModel):
                 "cluster_name": obj.get("cluster_name"),
                 "spark_version": obj.get("spark_version"),
                 "spark_conf": obj.get("spark_conf"),
-                "azure_attributes": AzureAttributes.from_dict(
-                    obj.get("azure_attributes")
-                )
-                if obj.get("azure_attributes") is not None
+                "aws_attributes": AwsAttributes.from_dict(obj.get("aws_attributes"))
+                if obj.get("aws_attributes") is not None
                 else None,
                 "node_type_id": obj.get("node_type_id"),
                 "driver_node_type_id": obj.get("driver_node_type_id"),
+                "ssh_public_keys": obj.get("ssh_public_keys"),
                 "custom_tags": obj.get("custom_tags"),
                 "cluster_log_conf": ClusterLogConf.from_dict(
                     obj.get("cluster_log_conf")
@@ -292,6 +310,7 @@ class ClusterInfo(BaseModel):
                 "autotermination_minutes": obj.get("autotermination_minutes"),
                 "enable_elastic_disk": obj.get("enable_elastic_disk"),
                 "instance_pool_id": obj.get("instance_pool_id"),
+                "cluster_source": obj.get("cluster_source"),
                 "state": obj.get("state"),
                 "state_message": obj.get("state_message"),
                 "start_time": obj.get("start_time"),
@@ -310,6 +329,14 @@ class ClusterInfo(BaseModel):
                     obj.get("termination_reason")
                 )
                 if obj.get("termination_reason") is not None
+                else None,
+                "gcp_attributes": GcpAttributes.from_dict(obj.get("gcp_attributes"))
+                if obj.get("gcp_attributes") is not None
+                else None,
+                "azure_attributes": AzureAttributes.from_dict(
+                    obj.get("azure_attributes")
+                )
+                if obj.get("azure_attributes") is not None
                 else None,
             }
         )

@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **dbfs** | [**DbfsStorageInfo**](DbfsStorageInfo.md) |  | [optional] 
+**s3** | [**S3StorageInfo**](S3StorageInfo.md) |  | [optional] 
 
 ## Example
 

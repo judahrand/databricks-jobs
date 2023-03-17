@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **cluster_name** | **str** | Cluster name requested by the user. This doesn’t have to be unique. If not specified at creation, the cluster name is an empty string. | [optional] 
 **spark_version** | **str** | The runtime version of the cluster, for example “5.0.x-scala2.11”. You can retrieve a list of available runtime versions by using the [Runtime versions](https://docs.microsoft.com/azure/databricks/dev-tools/api/latest/clusters#runtime-versions) API call. | [optional] 
 **spark_conf** | **Dict[str, object]** | An arbitrary object where the object key is a configuration propery name and the value is a configuration property value. | [optional] 
-**azure_attributes** | [**AzureAttributes**](AzureAttributes.md) |  | [optional] 
+**aws_attributes** | [**AwsAttributes**](AwsAttributes.md) |  | [optional] 
 **node_type_id** | **str** | This field encodes, through a single value, the resources available to each of the Spark nodes in this cluster. For example, the Spark nodes can be provisioned and optimized for memory or compute intensive workloads A list of available node types can be retrieved by using the [List node types](https://docs.microsoft.com/azure/databricks/dev-tools/api/latest/clusters#list-node-types) API call. | [optional] 
 **driver_node_type_id** | **str** | The node type of the Spark driver. This field is optional; if unset, the driver node type is set as the same value as &#x60;node_type_id&#x60; defined above. | [optional] 
 **ssh_public_keys** | **List[str]** |  | [optional] 
@@ -23,6 +23,8 @@ Name | Type | Description | Notes
 **cluster_source** | [**ClusterSource**](ClusterSource.md) |  | [optional] 
 **policy_id** | **str** | A [cluster policy](https://docs.microsoft.com/azure/databricks/dev-tools/api/latest/policies) ID. | [optional] 
 **enable_local_disk_encryption** | **bool** | Determines whether encryption of the disks attached to the cluster locally is enabled. | [optional] 
+**gcp_attributes** | [**GcpAttributes**](GcpAttributes.md) |  | [optional] 
+**azure_attributes** | [**AzureAttributes**](AzureAttributes.md) |  | [optional] 
 
 ## Example
 

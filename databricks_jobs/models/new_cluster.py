@@ -21,9 +21,11 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr
 
 from databricks_jobs.models.auto_scale import AutoScale
+from databricks_jobs.models.aws_attributes import AwsAttributes
 from databricks_jobs.models.azure_attributes import AzureAttributes
 from databricks_jobs.models.cluster_log_conf import ClusterLogConf
 from databricks_jobs.models.docker_image import DockerImage
+from databricks_jobs.models.gcp_attributes import GcpAttributes
 from databricks_jobs.models.init_script_info import InitScriptInfo
 
 
@@ -47,7 +49,7 @@ class NewCluster(BaseModel):
         None,
         description="An arbitrary object where the object key is a configuration propery name and the value is a configuration property value.",
     )
-    azure_attributes: Optional[AzureAttributes] = None
+    aws_attributes: Optional[AwsAttributes] = None
     node_type_id: Optional[StrictStr] = Field(
         None,
         description="This field encodes, through a single value, the resources available to each of the Spark nodes in this cluster. For example, the Spark nodes can be provisioned and optimized for memory or compute intensive workloads A list of available node types can be retrieved by using the [List node types](https://docs.microsoft.com/azure/databricks/dev-tools/api/latest/clusters#list-node-types) API call.",
@@ -55,6 +57,9 @@ class NewCluster(BaseModel):
     driver_node_type_id: Optional[StrictStr] = Field(
         None,
         description="The node type of the Spark driver. This field is optional; if unset, the driver node type is set as the same value as `node_type_id` defined above.",
+    )
+    ssh_public_keys: Optional[List[StrictStr]] = Field(
+        None, description="Set to empty array. Cluster SSH is not supported."
     )
     custom_tags: Optional[Dict[str, StrictStr]] = Field(
         None,
@@ -73,6 +78,10 @@ class NewCluster(BaseModel):
         None,
         description="Autoscaling Local Storage: when enabled, this cluster dynamically acquires additional disk space when its Spark workers are running low on disk space. Refer to [Autoscaling local storage](https://docs.microsoft.com/azure/databricks/clusters/configure#autoscaling-local-storage-azure) for details.",
     )
+    driver_instance_pool_id: Optional[StrictStr] = Field(
+        None,
+        description="The optional ID of the instance pool to use for the driver node. You must also specify `instance_pool_id`. Refer to [Instance Pools API](https://docs.databricks.com/dev-tools/api/latest/instance-pools.html) for details.",
+    )
     instance_pool_id: Optional[StrictStr] = Field(
         None,
         description="The optional ID of the instance pool to use for cluster nodes. If `driver_instance_pool_id` is present, `instance_pool_id` is used for worker nodes only. Otherwise, it is used for both the driver node and worker nodes. Refer to [Instance Pools API](https://docs.microsoft.com/azure/databricks/dev-tools/api/latest/instance-pools) for details.",
@@ -90,24 +99,30 @@ class NewCluster(BaseModel):
         None,
         description="The type of runtime engine to use. If not specified, the runtime engine type is inferred based on the `spark_version` value. Allowed values include:  * `PHOTON`: Use the Photon runtime engine type. * `STANDARD`: Use the standard runtime engine type.  This field is optional.",
     )
+    gcp_attributes: Optional[GcpAttributes] = None
+    azure_attributes: Optional[AzureAttributes] = None
     __properties = [
         "num_workers",
         "autoscale",
         "spark_version",
         "spark_conf",
-        "azure_attributes",
+        "aws_attributes",
         "node_type_id",
         "driver_node_type_id",
+        "ssh_public_keys",
         "custom_tags",
         "cluster_log_conf",
         "init_scripts",
         "spark_env_vars",
         "enable_elastic_disk",
+        "driver_instance_pool_id",
         "instance_pool_id",
         "policy_id",
         "enable_local_disk_encryption",
         "docker_image",
         "runtime_engine",
+        "gcp_attributes",
+        "azure_attributes",
     ]
 
     class Config:
@@ -133,9 +148,9 @@ class NewCluster(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of autoscale
         if self.autoscale:
             _dict["autoscale"] = self.autoscale.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of azure_attributes
-        if self.azure_attributes:
-            _dict["azure_attributes"] = self.azure_attributes.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of aws_attributes
+        if self.aws_attributes:
+            _dict["aws_attributes"] = self.aws_attributes.to_dict()
         # override the default output from pydantic by calling `to_dict()` of cluster_log_conf
         if self.cluster_log_conf:
             _dict["cluster_log_conf"] = self.cluster_log_conf.to_dict()
@@ -149,6 +164,12 @@ class NewCluster(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of docker_image
         if self.docker_image:
             _dict["docker_image"] = self.docker_image.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of gcp_attributes
+        if self.gcp_attributes:
+            _dict["gcp_attributes"] = self.gcp_attributes.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of azure_attributes
+        if self.azure_attributes:
+            _dict["azure_attributes"] = self.azure_attributes.to_dict()
         return _dict
 
     @classmethod
@@ -168,13 +189,12 @@ class NewCluster(BaseModel):
                 else None,
                 "spark_version": obj.get("spark_version"),
                 "spark_conf": obj.get("spark_conf"),
-                "azure_attributes": AzureAttributes.from_dict(
-                    obj.get("azure_attributes")
-                )
-                if obj.get("azure_attributes") is not None
+                "aws_attributes": AwsAttributes.from_dict(obj.get("aws_attributes"))
+                if obj.get("aws_attributes") is not None
                 else None,
                 "node_type_id": obj.get("node_type_id"),
                 "driver_node_type_id": obj.get("driver_node_type_id"),
+                "ssh_public_keys": obj.get("ssh_public_keys"),
                 "custom_tags": obj.get("custom_tags"),
                 "cluster_log_conf": ClusterLogConf.from_dict(
                     obj.get("cluster_log_conf")
@@ -188,6 +208,7 @@ class NewCluster(BaseModel):
                 else None,
                 "spark_env_vars": obj.get("spark_env_vars"),
                 "enable_elastic_disk": obj.get("enable_elastic_disk"),
+                "driver_instance_pool_id": obj.get("driver_instance_pool_id"),
                 "instance_pool_id": obj.get("instance_pool_id"),
                 "policy_id": obj.get("policy_id"),
                 "enable_local_disk_encryption": obj.get("enable_local_disk_encryption"),
@@ -195,6 +216,14 @@ class NewCluster(BaseModel):
                 if obj.get("docker_image") is not None
                 else None,
                 "runtime_engine": obj.get("runtime_engine"),
+                "gcp_attributes": GcpAttributes.from_dict(obj.get("gcp_attributes"))
+                if obj.get("gcp_attributes") is not None
+                else None,
+                "azure_attributes": AzureAttributes.from_dict(
+                    obj.get("azure_attributes")
+                )
+                if obj.get("azure_attributes") is not None
+                else None,
             }
         )
         return _obj

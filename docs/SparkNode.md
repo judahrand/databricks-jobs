@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **node_id** | **str** | Globally unique identifier for this node. | [optional] 
 **instance_id** | **str** | Globally unique identifier for the host instance from the cloud provider. | [optional] 
 **start_timestamp** | **int** | The timestamp (in millisecond) when the Spark node is launched. | [optional] 
+**node_aws_attributes** | [**SparkNodeAwsAttributes**](SparkNodeAwsAttributes.md) |  | [optional] 
 **host_private_ip** | **str** | The private IP address of the host instance. | [optional] 
 
 ## Example

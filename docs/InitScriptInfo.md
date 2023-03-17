@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **dbfs** | [**DbfsStorageInfo**](DbfsStorageInfo.md) |  | [optional] 
 **file** | [**FileStorageInfo**](FileStorageInfo.md) |  | [optional] 
+**s3** | [**S3StorageInfo**](S3StorageInfo.md) |  | [optional] 
 **abfss** | [**Adlsgen2Info**](Adlsgen2Info.md) |  | [optional] 
 
 ## Example

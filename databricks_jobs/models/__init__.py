@@ -27,6 +27,7 @@ from databricks_jobs.models.access_control_request_for_user import (
 )
 from databricks_jobs.models.adlsgen2_info import Adlsgen2Info
 from databricks_jobs.models.auto_scale import AutoScale
+from databricks_jobs.models.aws_attributes import AwsAttributes
 from databricks_jobs.models.azure_attributes import AzureAttributes
 from databricks_jobs.models.can_manage import CanManage
 from databricks_jobs.models.can_manage_run import CanManageRun
@@ -57,6 +58,7 @@ from databricks_jobs.models.docker_image import DockerImage
 from databricks_jobs.models.error import Error
 from databricks_jobs.models.event_details import EventDetails
 from databricks_jobs.models.file_storage_info import FileStorageInfo
+from databricks_jobs.models.gcp_attributes import GcpAttributes
 from databricks_jobs.models.git_branch_source import GitBranchSource
 from databricks_jobs.models.git_commit_source import GitCommitSource
 from databricks_jobs.models.git_provider import GitProvider
@@ -136,8 +138,10 @@ from databricks_jobs.models.run_submit_settings import RunSubmitSettings
 from databricks_jobs.models.run_submit_task_settings import RunSubmitTaskSettings
 from databricks_jobs.models.run_task import RunTask
 from databricks_jobs.models.run_type import RunType
+from databricks_jobs.models.s3_storage_info import S3StorageInfo
 from databricks_jobs.models.spark_jar_task import SparkJarTask
 from databricks_jobs.models.spark_node import SparkNode
+from databricks_jobs.models.spark_node_aws_attributes import SparkNodeAwsAttributes
 from databricks_jobs.models.spark_python_task import SparkPythonTask
 from databricks_jobs.models.spark_submit_task import SparkSubmitTask
 from databricks_jobs.models.spark_version import SparkVersion
