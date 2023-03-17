@@ -7,7 +7,7 @@ on:
 jobs:
   run_checks:
     name: Run checks
-    uses: ./.github/workflows/python.yaml
+    uses: ./.github/workflows/python.yml
 
   release:
     name: Release
