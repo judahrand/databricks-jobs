@@ -15,7 +15,7 @@ from setuptools import setup, find_packages  # noqa: H301
 
 setup(
     name="databricks-jobs",
-    version="1.0.0",
+    version="1.0.1",
     description="Databricks Jobs API 2.1 Client",
     author="Judah Rand",
     author_email="17158624+judahrand@users.noreply.github.com",
