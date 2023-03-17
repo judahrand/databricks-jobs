@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  run_checks:
+    name: Run checks
+    uses: ./.github/workflows/python.yaml
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: [run_checks]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install twine wheel
+
+      - name: Build
+        run: python setup.py sdist bdist_wheel
+
+      - name: Upload package
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          twine check dist/*
+          twine upload dist/*
