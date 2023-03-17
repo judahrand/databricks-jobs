@@ -273,6 +273,5 @@ docs/ViewsToExport.md
 docs/WebhookNotifications.md
 docs/WebhookNotificationsOnStartInner.md
 requirements.txt
-setup.py
 test-requirements.txt
 tox.ini

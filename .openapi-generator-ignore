@@ -9,5 +9,6 @@
 .travis.yml
 git_push.sh
 
+setup.py
 setup.cfg
 .gitignore

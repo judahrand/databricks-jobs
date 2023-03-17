@@ -12,35 +12,29 @@
 
 from setuptools import setup, find_packages  # noqa: H301
 
-# To install the library, run the following
-#
-# python setup.py install
-#
-# prerequisite: setuptools
-# http://pypi.python.org/pypi/setuptools
-NAME = "databricks-jobs"
-VERSION = "1.0.0"
-PYTHON_REQUIRES = ">=3.7"
-REQUIRES = [
-    "urllib3 >= 1.25.3",
-    "python-dateutil",
-    "pydantic",
-    "aenum"
-]
 
 setup(
-    name=NAME,
-    version=VERSION,
-    description="Jobs API 2.1",
-    author="OpenAPI Generator community",
-    author_email="team@openapitools.org",
-    url="",
-    keywords=["OpenAPI", "OpenAPI-Generator", "Jobs API 2.1"],
-    install_requires=REQUIRES,
+    name="databricks-jobs",
+    version="1.0.0",
+    description="Databricks Jobs API 2.1 Client",
+    author="Judah Rand",
+    author_email="17158624+judahrand@users.noreply.github.com",
+    url="https://github.com/judahrand/databricks-jobs",
+    keywords=[
+        "OpenAPI",
+        "OpenAPI-Generator",
+        "Databricks",
+        "Jobs API 2.1",
+    ],
+    python_requires=">=3.8",
+    install_requires=[
+        "urllib3 >= 1.25.3",
+        "python-dateutil",
+        "pydantic",
+        "aenum"
+    ],
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,
     long_description_content_type='text/markdown',
-    long_description="""\
-    The Jobs API allows you to create, edit, and delete jobs. You should never hard code secrets or store them in plain text. Use the [Secrets API](https://docs.microsoft.com/azure/databricks/dev-tools/api/latest/secrets) to manage secrets in the [Databricks CLI](https://docs.microsoft.com/azure/databricks/dev-tools/cli/index). Use the [Secrets utility](https://docs.microsoft.com/azure/databricks/dev-tools/databricks-utils#dbutils-secrets) to reference secrets in notebooks and jobs.  # noqa: E501
-    """
+    long_description=open('README.md').read(),
 )
