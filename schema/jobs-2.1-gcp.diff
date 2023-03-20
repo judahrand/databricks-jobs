@@ -1,5 +1,5 @@
---- jobs-2.1-gcp.yaml	2023-03-16 19:05:47
-+++ modified-jobs-2.1-gcp.yaml	2023-03-17 13:42:41
+--- jobs-2.1-gcp.yaml	2023-03-17 20:23:05
++++ schema/jobs-2.1-gcp.yaml	2023-03-20 14:39:21
 @@ -1,4 +1,4 @@
 -openapi: 3.1.0
 +openapi: 3.0.3
@@ -265,3 +265,33 @@
  
          * DRIVER_UNREACHABLE: Databricks was not able to access the Spark
          driver, because it was not reachable.
+@@ -3732,18 +3785,20 @@
+       type: string
+       example: 9f0621ee-b52b-11ea-b3de-0242ac130004
+     PermissionLevel:
++      type: string
+       description: Permission level to grant.
+-      oneOf:
+-        - $ref: '#/components/schemas/CanManage'
+-        - $ref: '#/components/schemas/CanManageRun'
+-        - $ref: '#/components/schemas/CanView'
+-        - $ref: '#/components/schemas/IsOwner'
++      enum:
++        - CAN_MANAGE
++        - CAN_MANAGE_RUN
++        - CAN_VIEW
++        - IS_OWNER
+     PermissionLevelForGroup:
++      type: string
+       description: Permission level to grant.
+-      oneOf:
+-        - $ref: '#/components/schemas/CanManage'
+-        - $ref: '#/components/schemas/CanManageRun'
+-        - $ref: '#/components/schemas/CanView'
++      enum:
++        - CAN_MANAGE
++        - CAN_MANAGE_RUN
++        - CAN_VIEW
+     CanManage:
+       type: string
+       description: Permission to manage the job.

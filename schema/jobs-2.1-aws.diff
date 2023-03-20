@@ -1,5 +1,5 @@
---- jobs-2.1-aws.yaml	2023-03-16 19:05:50
-+++ modified-jobs-2.1-aws.yaml	2023-03-17 13:29:36
+--- jobs-2.1-aws.yaml	2023-03-17 20:23:12
++++ schema/jobs-2.1-aws.yaml	2023-03-20 14:38:58
 @@ -973,8 +973,45 @@
              - UNPAUSED
            example: PAUSED
@@ -277,3 +277,49 @@
  
          * DRIVER_UNREACHABLE: Databricks was not able to access the Spark
          driver, because it was not reachable.
+@@ -4444,38 +4501,20 @@
+       type: string
+       example: 9f0621ee-b52b-11ea-b3de-0242ac130004
+     PermissionLevel:
+-      description: Permission level to grant.
+-      oneOf:
+-        - $ref: '#/components/schemas/CanManage'
+-        - $ref: '#/components/schemas/CanManageRun'
+-        - $ref: '#/components/schemas/CanView'
+-        - $ref: '#/components/schemas/IsOwner'
+-    PermissionLevelForGroup:
+-      description: Permission level to grant.
+-      oneOf:
+-        - $ref: '#/components/schemas/CanManage'
+-        - $ref: '#/components/schemas/CanManageRun'
+-        - $ref: '#/components/schemas/CanView'
+-    CanManage:
+       type: string
+-      description: Permission to manage the job.
++      description: Permission level to grant.
+       enum:
+         - CAN_MANAGE
+-    CanManageRun:
+-      type: string
+-      description: Permission to run and/or manage runs for the job.
+-      enum:
+         - CAN_MANAGE_RUN
+-    CanView:
+-      type: string
+-      description: Permission to view the settings of the job.
+-      enum:
+         - CAN_VIEW
+-    IsOwner:
++        - IS_OWNER
++    PermissionLevelForGroup:
+       type: string
+-      description: Perimssion that represents ownership of the job.
++      description: Permission level to grant.
+       enum:
+-        - IS_OWNER
++        - CAN_MANAGE
++        - CAN_MANAGE_RUN
++        - CAN_VIEW
+     RunSubmitTaskSettings:
+       required:
+         - task_key

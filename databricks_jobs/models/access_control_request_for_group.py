@@ -57,9 +57,6 @@ class AccessControlRequestForGroup(BaseModel):
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
         _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of permission_level
-        if self.permission_level:
-            _dict["permission_level"] = self.permission_level.to_dict()
         return _dict
 
     @classmethod
@@ -74,11 +71,7 @@ class AccessControlRequestForGroup(BaseModel):
         _obj = AccessControlRequestForGroup.parse_obj(
             {
                 "group_name": obj.get("group_name"),
-                "permission_level": PermissionLevelForGroup.from_dict(
-                    obj.get("permission_level")
-                )
-                if obj.get("permission_level") is not None
-                else None,
+                "permission_level": obj.get("permission_level"),
             }
         )
         return _obj
