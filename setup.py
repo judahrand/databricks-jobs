@@ -34,6 +34,7 @@ setup(
         "aenum"
     ],
     packages=find_packages(exclude=["test", "tests"]),
+    package_data={"databricks_jobs": ["py.typed"]},
     include_package_data=True,
     long_description_content_type='text/markdown',
     long_description=open('README.md').read(),
